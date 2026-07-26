@@ -114,8 +114,8 @@ export default function PurchaseRequestPage() {
           </section>
 
           {isDesktop && (
-            <aside className="h-fit rounded-lg border border-neutral-200 p-6 lg:sticky lg:top-6">
-              <h2 className="mb-4 font-heading text-lg font-bold text-neutral-900">Ringkasan Pesanan (Cart)</h2>
+            <aside className="flex h-fit max-h-[calc(100vh-3rem)] flex-col rounded-lg border border-neutral-200 p-6 lg:sticky lg:top-6">
+              <h2 className="mb-4 shrink-0 font-heading text-lg font-bold text-neutral-900">Ringkasan Pesanan (Cart)</h2>
               {cartPanel}
             </aside>
           )}

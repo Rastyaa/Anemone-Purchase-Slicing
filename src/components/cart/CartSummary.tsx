@@ -53,56 +53,59 @@ export function CartSummary({
   const total = calcTotal(subtotal, tax, ongkir);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3">
-        <p className="text-sm font-medium text-neutral-500">Item Terpilih:</p>
-        {lines.map((line) => {
-          const product = products.find((item) => item.id === line.productId);
-          if (!product) return null;
-          return (
-            <CartItem
-              key={line.productId}
-              product={product}
-              qty={line.qty}
-              onIncrement={() => increment(product.id, product.stockHO)}
-              onDecrement={() => decrement(product.id)}
-              onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
-              onRemove={() => remove(line.productId)}
+    <div className="flex min-h-0 flex-col gap-4">
+      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto">
+        <div className="flex flex-col gap-3">
+          <p className="text-sm font-medium text-neutral-500">Item Terpilih:</p>
+          {lines.map((line) => {
+            const product = products.find((item) => item.id === line.productId);
+            if (!product) return null;
+            return (
+              <CartItem
+                key={line.productId}
+                product={product}
+                qty={line.qty}
+                onIncrement={() => increment(product.id, product.stockHO)}
+                onDecrement={() => decrement(product.id)}
+                onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
+                onRemove={() => remove(line.productId)}
+              />
+            );
+          })}
+        </div>
+
+        <hr className="border-neutral-200" />
+        <CostBreakdown
+          subtotal={subtotal}
+          tax={tax}
+          expedisiValue={expedisiValue}
+          onExpedisiChange={onExpedisiChange}
+          ongkir={ongkir}
+        />
+        <hr className="border-neutral-200" />
+
+        <div className="flex flex-col gap-3">
+          <p className="text-sm font-medium text-neutral-500">Metode Pembayaran</p>
+          {paymentOptions.map((option) => (
+            <PaymentOption
+              key={option.value}
+              label={option.label}
+              selected={paymentMethod === option.value}
+              onSelect={() => setPaymentMethod(option.value)}
             />
-          );
-        })}
+          ))}
+        </div>
       </div>
 
-      <hr className="border-neutral-200" />
-      <CostBreakdown
-        subtotal={subtotal}
-        tax={tax}
-        expedisiValue={expedisiValue}
-        onExpedisiChange={onExpedisiChange}
-        ongkir={ongkir}
-      />
-      <hr className="border-neutral-200" />
-
-      <div className="flex items-center justify-between">
-        <p className="font-semibold text-neutral-900">TOTAL TAGIHAN</p>
-        <p className="font-bold text-brand-700">{formatRupiah(total)}</p>
+      <div className="flex shrink-0 flex-col gap-4 border-t border-neutral-200 pt-4">
+        <div className="flex items-center justify-between">
+          <p className="font-semibold text-neutral-900">TOTAL TAGIHAN</p>
+          <p className="font-bold text-brand-700">{formatRupiah(total)}</p>
+        </div>
+        <Button className="w-full" loading={isSubmitting} onClick={() => onSubmit(paymentMethod)}>
+          {isSubmitting ? "Memproses..." : "Submit Order / Bayar"}
+        </Button>
       </div>
-
-      <div className="flex flex-col gap-3">
-        <p className="text-sm font-medium text-neutral-500">Metode Pembayaran</p>
-        {paymentOptions.map((option) => (
-          <PaymentOption
-            key={option.value}
-            label={option.label}
-            selected={paymentMethod === option.value}
-            onSelect={() => setPaymentMethod(option.value)}
-          />
-        ))}
-      </div>
-
-      <Button className="w-full" loading={isSubmitting} onClick={() => onSubmit(paymentMethod)}>
-        {isSubmitting ? "Memproses..." : "Submit Order / Bayar"}
-      </Button>
     </div>
   );
 }
