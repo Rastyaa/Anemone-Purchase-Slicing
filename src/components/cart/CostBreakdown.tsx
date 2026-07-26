@@ -1,5 +1,12 @@
+import { Dropdown, type DropdownOption } from "@/components/ui/Dropdown";
 import { expedisiOptions } from "@/lib/expedisi";
 import { formatRupiah } from "@/lib/format";
+
+const expedisiDropdownOptions: DropdownOption<string>[] = expedisiOptions.map((option) => ({
+  value: option.value,
+  label: option.label,
+  description: `Ongkir ${formatRupiah(option.ongkir)}`,
+}));
 
 interface CostBreakdownProps {
   subtotal: number;
@@ -23,18 +30,13 @@ export function CostBreakdown({ subtotal, tax, expedisiValue, onExpedisiChange, 
       <div className="flex items-center justify-between">
         <dt>Expedisi</dt>
         <dd>
-          <select
+          <Dropdown
+            options={expedisiDropdownOptions}
             value={expedisiValue}
-            onChange={(event) => onExpedisiChange(event.target.value)}
-            aria-label="Pilih ekspedisi"
-            className="rounded-md border border-neutral-200 bg-white px-2 py-1 text-sm text-neutral-700 focus:border-brand-600 focus:outline-none"
-          >
-            {expedisiOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            onChange={onExpedisiChange}
+            ariaLabel="Pilih ekspedisi"
+            className="text-neutral-700"
+          />
         </dd>
       </div>
       <div className="flex justify-between">
