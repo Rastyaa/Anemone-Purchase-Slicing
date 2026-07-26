@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, Inter } from "next/font/google";
+import { OutletProvider } from "@/lib/outlet-context";
 import "./globals.css";
 
 const baloo2 = Baloo_2({
@@ -26,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className={`${baloo2.variable} ${inter.variable} font-sans antialiased bg-white text-neutral-900`}>
-        {children}
+        <OutletProvider>{children}</OutletProvider>
       </body>
     </html>
   );
