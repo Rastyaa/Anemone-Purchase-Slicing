@@ -5,8 +5,6 @@ Halaman internal untuk koordinator/owner outlet Anemone Indonesia memesan kebutu
 - **Figma (view access):** https://www.figma.com/design/5DdsO7m1tuAHoYbo2tQacN/Anemone---Purchase-Requests
 - **Repository:** https://github.com/Rastyaa/Anemone-Purchase-Slicing
 
-> Lanjutan pengerjaan/handoff ke developer atau AI agent lain: lihat `HANDOFF.md`.
-
 ## Menjalankan Project
 
 ```bash
@@ -73,6 +71,20 @@ public/
 ```
 
 Business logic (validasi qty, hitung harga, derive status) sengaja dipisah ke `lib/` sebagai pure function — komponen React cuma manggil, gak nyimpen logic itu sendiri.
+
+## Kenapa Tampilan Frontend Tidak 1:1 dengan Figma
+
+Hasil implementasi **sengaja tidak persis** dengan file Figma, dan ini keputusan sadar — bukan penyimpangan yang tidak disengaja. Penjelasannya:
+
+**Posisi Figma dalam pengerjaan ini.** File Figma dikerjakan lebih dulu dalam batas waktu yang sama, dan berperan sebagai acuan inti: informasi arsitektur, alur pemesanan, dan semua state wajib ditetapkan di sana dan **tetap diikuti frontend** — layout 2 kolom katalog+cart di desktop, sticky bar + bottom sheet cart di mobile, 5 state wajib (tersedia/terbatas/habis/ditambahkan/loading submit), validasi stok, halaman Order History dengan filter+timeline, hingga perilaku Product Detail Panel yang berbeda per breakpoint. Yang di-upgrade di frontend adalah **kualitas eksekusi visualnya**, bukan strukturnya.
+
+**Kenapa visualnya di-upgrade, bukan disalin.** Beberapa hal baru diketahui/tersedia *setelah* Figma selesai, dan menyalin Figma apa adanya justru akan mengawetkan kekurangan yang sudah diketahui:
+
+1. **Warna.** Figma memakai palet sementara yang identik dengan warna default Tailwind. Setelah file logo asli tersedia, warna brand yang sebenarnya (teal `#08adc2`, magenta `#dc1964`, gold `#fec106`) di-sampling langsung dari logo dan dijadikan token — hasilnya identitas visual yang benar-benar milik brand, bukan template.
+2. **Aset.** Figma hanya punya placeholder ("pending image fill" untuk logo, kotak abu untuk foto produk). Frontend memakai logo asli dan satu-satunya foto asli yang ada di file Figma.
+3. **Detail interaksi yang belum sempat dirancang di Figma** — dropdown cabang & ekspedisi dengan info per opsi, drag-to-dismiss bottom sheet, keyboard navigation, touch target 44px, indikator stok `LoopGauge` — ditambahkan di level kode karena lebih cepat diiterasi langsung di browser daripada digambar ulang dulu.
+
+**Tujuannya:** menunjukkan dua kemampuan sekaligus sesuai brief — proses desain (wireframe → hi-fi di Figma) *dan* penilaian desain saat implementasi (mengenali kekurangan desain sendiri, memperbaikinya dengan alasan yang bisa dipertanggungjawabkan). Daripada mengirim frontend yang setia pada desain yang sudah diketahui kurang, lebih jujur mengirim frontend terbaik yang bisa dibuat dengan mendokumentasikan setiap penyimpangan — yang dirinci satu per satu di bagian berikut.
 
 ## Keputusan UI/UX Utama
 
