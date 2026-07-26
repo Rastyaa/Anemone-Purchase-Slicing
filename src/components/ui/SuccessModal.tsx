@@ -28,12 +28,19 @@ export function SuccessModal({
   return (
     <Modal open={open} onClose={onClose} labelledBy="success-modal-title">
       <div className="flex flex-col items-center gap-2 text-center">
-        <span
-          aria-hidden="true"
-          className="flex h-16 w-16 items-center justify-center rounded-full bg-success-50 text-3xl text-success-700"
-        >
-          ✓
-        </span>
+        <div className="relative flex h-20 w-20 items-center justify-center">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full opacity-60 blur-md"
+            style={{ background: "conic-gradient(from 90deg, #0fa0af, #fdbb0e, #dc1f71, #0fa0af)" }}
+          />
+          <span
+            aria-hidden="true"
+            className="relative flex h-16 w-16 items-center justify-center rounded-full bg-success-50 text-3xl text-success-700 ring-4 ring-white"
+          >
+            ✓
+          </span>
+        </div>
         <h2 id="success-modal-title" className="text-xl font-bold text-neutral-900">
           Pesanan Berhasil Dibuat!
         </h2>
