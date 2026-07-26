@@ -8,10 +8,15 @@ import { Header } from "@/components/layout/Header";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { ProductDetailPanel } from "@/components/product-detail/ProductDetailPanel";
 import { BottomSheet } from "@/components/ui/BottomSheet";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { FilterTabs } from "@/components/ui/FilterTabs";
 import { LoadingOverlay } from "@/components/ui/LoadingOverlay";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { SuccessModal } from "@/components/ui/SuccessModal";
+import { EmptySearchIcon } from "@/components/ui/icons";
 import productsData from "@/data/products.json";
 import { useCart } from "@/lib/cart-context";
+import { catalogFilterOptions, filterProducts, type CatalogFilter } from "@/lib/catalog-filter";
 import { DEFAULT_EXPEDISI_VALUE, getExpedisiOngkir } from "@/lib/expedisi";
 import { formatRupiah } from "@/lib/format";
 import { generateOrderId } from "@/lib/order-id";
@@ -39,6 +44,10 @@ export default function PurchaseRequestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<CompletedOrder | null>(null);
   const [expedisiValue, setExpedisiValue] = useState(DEFAULT_EXPEDISI_VALUE);
+  const [search, setSearch] = useState("");
+  const [catalogFilter, setCatalogFilter] = useState<CatalogFilter>("semua");
+
+  const visibleProducts = filterProducts(products, search, catalogFilter);
 
   const ongkir = getExpedisiOngkir(expedisiValue);
   const subtotal = calcSubtotal(lines, products);
@@ -83,11 +92,25 @@ export default function PurchaseRequestPage() {
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_400px]">
           <section className="flex flex-col gap-4 pb-24 lg:pb-0">
             <h2 className="font-heading text-lg font-bold text-neutral-900">Katalog Produk HO</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} onViewDetail={setSelectedProduct} />
-              ))}
+            <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+              <div className="xl:w-64">
+                <SearchInput value={search} onChange={setSearch} placeholder="Cari produk..." />
+              </div>
+              <FilterTabs options={catalogFilterOptions} value={catalogFilter} onChange={setCatalogFilter} />
             </div>
+            {visibleProducts.length === 0 ? (
+              <EmptyState
+                icon={<EmptySearchIcon />}
+                title="Tidak ada produk yang cocok"
+                description="Coba ubah kata kunci atau filter stok."
+              />
+            ) : (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {visibleProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} onViewDetail={setSelectedProduct} />
+                ))}
+              </div>
+            )}
           </section>
 
           {isDesktop && (

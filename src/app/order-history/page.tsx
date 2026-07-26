@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { FilterTabs } from "@/components/order-history/FilterTabs";
+import { FilterTabs } from "@/components/ui/FilterTabs";
 import { OrderHistoryCardList } from "@/components/order-history/OrderHistoryCardList";
 import { OrderHistoryTable } from "@/components/order-history/OrderHistoryTable";
 import { Header } from "@/components/layout/Header";

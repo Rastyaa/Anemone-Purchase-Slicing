@@ -21,6 +21,17 @@ export function EmptyCartIcon() {
   );
 }
 
+export function EmptySearchIcon() {
+  return (
+    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand-50">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="9" stroke="currentColor" strokeWidth="2" className="text-brand-600" />
+        <path d="M23 23l6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-brand-600" />
+      </svg>
+    </div>
+  );
+}
+
 export function EmptyOrderHistoryIcon() {
   return (
     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand-50">
