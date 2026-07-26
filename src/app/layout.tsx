@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${baloo2.variable} ${inter.variable} font-sans antialiased bg-white text-neutral-900`}>
+      <body className={`${baloo2.variable} ${inter.variable} font-sans antialiased bg-neutral-50 text-neutral-900`}>
         <OutletProvider>{children}</OutletProvider>
       </body>
     </html>
