@@ -54,7 +54,7 @@ export default function OrderHistoryPage() {
           <div className="sm:w-72">
             <SearchInput value={search} onChange={setSearch} placeholder="Cari no. PR..." />
           </div>
-          <FilterTabs options={filterOptions} value={filter} onChange={setFilter} />
+          <FilterTabs options={filterOptions} value={filter} onChange={setFilter} ariaLabel="Filter status pesanan" />
         </div>
 
         <div className="mt-6">

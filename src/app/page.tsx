@@ -104,7 +104,12 @@ export default function PurchaseRequestPage() {
               <div className="xl:w-64">
                 <SearchInput value={search} onChange={setSearch} placeholder="Cari produk..." />
               </div>
-              <FilterTabs options={catalogFilterOptions} value={catalogFilter} onChange={setCatalogFilter} />
+              <FilterTabs
+                options={catalogFilterOptions}
+                value={catalogFilter}
+                onChange={setCatalogFilter}
+                ariaLabel="Filter stok produk"
+              />
             </div>
             {visibleProducts.length === 0 ? (
               <EmptyState
