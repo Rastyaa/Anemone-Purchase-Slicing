@@ -15,6 +15,8 @@ npm run dev
 
 Buka http://localhost:3000. Tidak ada environment variable atau backend yang perlu disiapkan — semua data mock/lokal.
 
+Node.js 18+ direkomendasikan.
+
 ```bash
 npm run build && npm run start   # production build
 npm run lint                     # eslint
