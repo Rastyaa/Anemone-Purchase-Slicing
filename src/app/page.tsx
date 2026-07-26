@@ -132,9 +132,10 @@ export default function PurchaseRequestPage() {
 
       {!isDesktop && lines.length > 0 && (
         <button
+          key={totalItems}
           type="button"
           onClick={() => setIsCartSheetOpen(true)}
-          className="fixed inset-x-4 bottom-4 z-40 flex items-center justify-between rounded-md bg-brand-600 px-5 py-4 text-white shadow-lg"
+          className="fixed inset-x-4 bottom-4 z-40 flex items-center justify-between rounded-md bg-brand-600 px-5 py-4 text-white shadow-lg motion-safe:animate-bump"
         >
           <span className="text-sm font-medium">
             {totalItems} item · {formatRupiah(total)}
