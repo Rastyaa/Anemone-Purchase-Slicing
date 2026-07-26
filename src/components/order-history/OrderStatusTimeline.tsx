@@ -1,3 +1,4 @@
+import { LoopGauge } from "@/components/ui/LoopGauge";
 import type { OrderTimelineStep } from "@/lib/types";
 
 const stepLabel: Record<OrderTimelineStep, string> = {
@@ -19,13 +20,14 @@ export function OrderStatusTimeline({ timeline, cancelled }: OrderStatusTimeline
         const done = Boolean(entry.timestamp);
         return (
           <li key={entry.step} className="flex items-start gap-3">
-            <span
-              aria-hidden="true"
-              className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs ${
-                done ? "bg-success-50 text-success-700" : "bg-neutral-100 text-neutral-400"
-              }`}
-            >
-              {done ? "✓" : "•"}
+            <span aria-hidden="true" className="relative mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center">
+              <LoopGauge
+                fraction={done ? 1 : 0}
+                size={20}
+                strokeWidth={2.5}
+                className={done ? "text-success-600" : "text-neutral-200"}
+              />
+              {done && <span className="absolute text-[10px] text-success-700">✓</span>}
             </span>
             <div>
               <p className={`text-sm font-medium ${done ? "text-neutral-900" : "text-neutral-400"}`}>
