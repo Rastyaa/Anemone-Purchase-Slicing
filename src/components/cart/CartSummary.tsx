@@ -5,6 +5,7 @@ import { CartItem } from "@/components/cart/CartItem";
 import { CostBreakdown } from "@/components/cart/CostBreakdown";
 import { PaymentOption } from "@/components/cart/PaymentOption";
 import { Button } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { EmptyCartIcon } from "@/components/ui/icons";
 import { useCart } from "@/lib/cart-context";
@@ -32,6 +33,7 @@ export function CartSummary({
 }: CartSummaryProps) {
   const { lines, increment, decrement, setQty, remove } = useCart();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("transfer-bank");
+  const [pendingRemove, setPendingRemove] = useState<Product | null>(null);
 
   if (lines.length === 0) {
     return (
@@ -63,7 +65,7 @@ export function CartSummary({
                 onIncrement={() => increment(product.id, product.stockHO)}
                 onDecrement={() => decrement(product.id)}
                 onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
-                onRemove={() => remove(line.productId)}
+                onRemove={() => setPendingRemove(product)}
               />
             );
           })}
@@ -101,6 +103,21 @@ export function CartSummary({
           {isSubmitting ? "Memproses..." : "Submit Order / Bayar"}
         </Button>
       </div>
+
+      {pendingRemove && (
+        <ConfirmDialog
+          open
+          title="Hapus dari keranjang?"
+          description={`${pendingRemove.name} akan dihapus dari keranjang.`}
+          confirmLabel="Hapus"
+          danger
+          onConfirm={() => {
+            remove(pendingRemove.id);
+            setPendingRemove(null);
+          }}
+          onClose={() => setPendingRemove(null)}
+        />
+      )}
     </div>
   );
 }

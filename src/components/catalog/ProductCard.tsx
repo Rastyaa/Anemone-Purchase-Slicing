@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { LoopGauge } from "@/components/ui/LoopGauge";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { useCart } from "@/lib/cart-context";
@@ -47,6 +49,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onViewDetail }: ProductCardProps) {
   const { getQty, increment, decrement, setQty, remove } = useCart();
+  const [confirmingRemove, setConfirmingRemove] = useState(false);
   const qty = getQty(product.id);
   const status = deriveStockStatus(product.stockHO);
   const isOutOfStock = status === "habis";
@@ -97,7 +100,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
                 onIncrement={() => increment(product.id, product.stockHO)}
                 onDecrement={() => decrement(product.id)}
                 onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
-                onRemove={() => remove(product.id)}
+                onRemove={() => setConfirmingRemove(true)}
               />
               <span className="text-sm font-semibold text-brand-700">{formatRupiah(product.price * qty)}</span>
             </div>
@@ -108,6 +111,18 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
           )}
         </div>
       </div>
+      <ConfirmDialog
+        open={confirmingRemove}
+        title="Hapus dari keranjang?"
+        description={`${product.name} akan dihapus dari keranjang.`}
+        confirmLabel="Hapus"
+        danger
+        onConfirm={() => {
+          remove(product.id);
+          setConfirmingRemove(false);
+        }}
+        onClose={() => setConfirmingRemove(false)}
+      />
     </article>
   );
 }
