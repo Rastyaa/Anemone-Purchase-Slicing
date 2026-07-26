@@ -31,11 +31,8 @@ export interface Order {
   id: string;
   date: string;
   lines: OrderLine[];
-  subtotal: number;
-  tax: number;
   expedisi: string;
   ongkir: number;
-  total: number;
   paymentMethod: PaymentMethod;
   status: OrderStatus;
   timeline: { step: OrderTimelineStep; timestamp?: string }[];

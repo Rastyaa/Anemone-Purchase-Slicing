@@ -1,4 +1,4 @@
-import type { CartLine, Product } from "@/lib/types";
+import type { CartLine, Order, Product } from "@/lib/types";
 
 export const TAX_RATE = 0.11;
 export const ONGKIR = 50000;
@@ -17,4 +17,8 @@ export function calcTax(subtotal: number): number {
 
 export function calcTotal(subtotal: number, tax: number, ongkir: number): number {
   return subtotal + tax + ongkir;
+}
+
+export function calcOrderSubtotal(order: Order): number {
+  return order.lines.reduce((sum, line) => sum + line.subtotal, 0);
 }
