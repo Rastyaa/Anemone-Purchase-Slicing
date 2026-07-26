@@ -49,6 +49,7 @@ export function OrderHistoryTable({ orders }: OrderHistoryTableProps) {
                     type="button"
                     onClick={() => setExpandedId(isExpanded ? null : order.id)}
                     aria-expanded={isExpanded}
+                    aria-controls={`order-detail-${order.id}`}
                     className="text-sm font-medium text-brand-700 underline-offset-2 hover:underline"
                   >
                     {isExpanded ? "Tutup Detail" : "Lihat Detail"}
@@ -56,7 +57,7 @@ export function OrderHistoryTable({ orders }: OrderHistoryTableProps) {
                 </td>
               </tr>
               {isExpanded && (
-                <tr className="border-b border-neutral-100 bg-neutral-50">
+                <tr id={`order-detail-${order.id}`} className="border-b border-neutral-100 bg-neutral-50">
                   <td colSpan={6} className="p-6">
                     <OrderDetailContent order={order} />
                   </td>

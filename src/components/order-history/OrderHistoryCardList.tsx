@@ -37,13 +37,14 @@ export function OrderHistoryCardList({ orders }: OrderHistoryCardListProps) {
               type="button"
               onClick={() => setExpandedId(isExpanded ? null : order.id)}
               aria-expanded={isExpanded}
+              aria-controls={`order-detail-mobile-${order.id}`}
               className="mt-3 text-sm font-medium text-brand-700 underline-offset-2 hover:underline"
             >
               {isExpanded ? "Tutup Detail" : "Lihat Detail"}
             </button>
 
             {isExpanded && (
-              <div className="mt-4 border-t border-neutral-100 pt-4">
+              <div id={`order-detail-mobile-${order.id}`} className="mt-4 border-t border-neutral-100 pt-4">
                 <OrderDetailContent order={order} />
               </div>
             )}
