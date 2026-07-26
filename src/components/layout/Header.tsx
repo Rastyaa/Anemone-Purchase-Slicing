@@ -49,7 +49,7 @@ export function Header() {
         className="shrink-0 whitespace-nowrap text-sm font-medium text-neutral-700 hover:text-brand-700"
       >
         <span className="sm:hidden">Riwayat</span>
-        <span className="hidden sm:inline">Order History</span>
+        <span className="hidden sm:inline">Riwayat Pesanan</span>
       </Link>
     </header>
   );

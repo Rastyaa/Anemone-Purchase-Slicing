@@ -47,7 +47,7 @@ export default function OrderHistoryPage() {
         <Link href="/" className="text-sm font-medium text-brand-700">
           ← Kembali ke Purchase Request
         </Link>
-        <h1 className="mt-3 font-heading text-2xl font-bold text-neutral-900">Order History</h1>
+        <h1 className="mt-3 font-heading text-2xl font-bold text-neutral-900">Riwayat Pesanan</h1>
         <p className="mt-1 text-neutral-500">Pantau status pesanan stock yang sudah diajukan ke Head Office.</p>
 
         <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
