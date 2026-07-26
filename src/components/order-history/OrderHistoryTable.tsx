@@ -23,7 +23,8 @@ export function OrderHistoryTable({ orders }: OrderHistoryTableProps) {
           <th className="py-2 pr-4">Tanggal</th>
           <th className="py-2 pr-4">Item</th>
           <th className="py-2 pr-4">Total</th>
-          <th className="py-2">Status</th>
+          <th className="py-2 pr-4">Status</th>
+          <th className="py-2">Aksi</th>
         </tr>
       </thead>
       <tbody>
@@ -35,21 +36,28 @@ export function OrderHistoryTable({ orders }: OrderHistoryTableProps) {
 
           return (
             <Fragment key={order.id}>
-              <tr
-                onClick={() => setExpandedId(isExpanded ? null : order.id)}
-                className="cursor-pointer border-b border-neutral-100 hover:bg-neutral-50"
-              >
+              <tr className="border-b border-neutral-100">
                 <td className="py-3 pr-4 font-medium text-neutral-900">{order.id}</td>
                 <td className="py-3 pr-4 text-neutral-500">{formatOrderDate(order.date)}</td>
                 <td className="py-3 pr-4 text-neutral-700">{order.lines.map((line) => line.name).join(", ")}</td>
                 <td className="py-3 pr-4 font-medium text-neutral-900">{formatRupiah(total)}</td>
-                <td className="py-3">
+                <td className="py-3 pr-4">
                   <Badge tone={orderStatusTone[order.status]}>{orderStatusLabel[order.status]}</Badge>
+                </td>
+                <td className="py-3">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedId(isExpanded ? null : order.id)}
+                    aria-expanded={isExpanded}
+                    className="text-sm font-medium text-brand-700 underline-offset-2 hover:underline"
+                  >
+                    {isExpanded ? "Tutup Detail" : "Lihat Detail"}
+                  </button>
                 </td>
               </tr>
               {isExpanded && (
                 <tr className="border-b border-neutral-100 bg-neutral-50">
-                  <td colSpan={5} className="p-6">
+                  <td colSpan={6} className="p-6">
                     <OrderDetailContent order={order} />
                   </td>
                 </tr>

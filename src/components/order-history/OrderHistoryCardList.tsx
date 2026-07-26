@@ -25,19 +25,21 @@ export function OrderHistoryCardList({ orders }: OrderHistoryCardListProps) {
 
         return (
           <div key={order.id} className="rounded-lg border border-neutral-200 p-4">
+            <div className="flex justify-between text-sm font-medium text-neutral-900">
+              <span>{order.id}</span>
+              <span>{formatRupiah(total)}</span>
+            </div>
+            <div className="mt-2 flex items-center justify-between">
+              <span className="text-xs text-neutral-500">{formatOrderDate(order.date)}</span>
+              <Badge tone={orderStatusTone[order.status]}>{orderStatusLabel[order.status]}</Badge>
+            </div>
             <button
               type="button"
               onClick={() => setExpandedId(isExpanded ? null : order.id)}
-              className="flex w-full flex-col gap-2 text-left"
+              aria-expanded={isExpanded}
+              className="mt-3 text-sm font-medium text-brand-700 underline-offset-2 hover:underline"
             >
-              <div className="flex justify-between text-sm font-medium text-neutral-900">
-                <span>{order.id}</span>
-                <span>{formatRupiah(total)}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-neutral-500">{formatOrderDate(order.date)}</span>
-                <Badge tone={orderStatusTone[order.status]}>{orderStatusLabel[order.status]}</Badge>
-              </div>
+              {isExpanded ? "Tutup Detail" : "Lihat Detail"}
             </button>
 
             {isExpanded && (
