@@ -41,7 +41,7 @@ export function SuccessModal({
             ✓
           </span>
         </div>
-        <h2 id="success-modal-title" className="text-xl font-bold text-neutral-900">
+        <h2 id="success-modal-title" className="font-heading text-xl font-bold text-neutral-900">
           Pesanan Berhasil Dibuat!
         </h2>
         <p className="rounded-full bg-neutral-100 px-4 py-1 text-sm font-medium text-neutral-700">

@@ -50,7 +50,7 @@ export function ProductDetailPanel({ product, onClose }: ProductDetailPanelProps
           </button>
         ) : (
           <div className="flex items-center justify-between">
-            <h2 id="product-detail-title" className="text-lg font-semibold text-neutral-900">
+            <h2 id="product-detail-title" className="font-heading text-lg font-bold text-neutral-900">
               Detail Produk
             </h2>
             <button type="button" onClick={onClose} aria-label="Tutup">
@@ -88,7 +88,7 @@ export function ProductDetailPanel({ product, onClose }: ProductDetailPanelProps
         </div>
 
         <Badge tone={statusTone[status]}>{statusLabel[status]}</Badge>
-        <h3 id={isDesktop ? "product-detail-title" : undefined} className="text-xl font-bold text-neutral-900">
+        <h3 id={isDesktop ? "product-detail-title" : undefined} className="font-heading text-xl font-bold text-neutral-900">
           {product.name}
         </h3>
         <p className="text-lg font-semibold text-brand-700">{formatRupiah(product.price)} / pcs</p>
