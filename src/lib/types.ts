@@ -22,6 +22,7 @@ export type OrderStatus = "diproses" | "dikirim" | "selesai" | "dibatalkan";
 export type OrderTimelineStep = "dibuat" | "diproses" | "dikirim" | "selesai";
 
 export interface OrderLine {
+  productId: string;
   name: string;
   qty: number;
   subtotal: number;
