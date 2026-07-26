@@ -10,6 +10,8 @@ interface CartContextValue {
   getQty: (productId: string) => number;
   increment: (productId: string, stockHO: number) => void;
   decrement: (productId: string) => void;
+  setQty: (productId: string, qty: number, stockHO: number) => void;
+  addMany: (lines: { productId: string; qty: number; stockHO: number }[]) => void;
   remove: (productId: string) => void;
   clear: () => void;
 }
@@ -25,6 +27,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       getQty: (productId) => lines.find((line) => line.productId === productId)?.qty ?? 0,
       increment: (productId, stockHO) => dispatch({ type: "increment", productId, stockHO }),
       decrement: (productId) => dispatch({ type: "decrement", productId }),
+      setQty: (productId, qty, stockHO) => dispatch({ type: "setQty", productId, qty, stockHO }),
+      addMany: (incoming) => dispatch({ type: "addMany", lines: incoming }),
       remove: (productId) => dispatch({ type: "remove", productId }),
       clear: () => dispatch({ type: "clear" }),
     }),

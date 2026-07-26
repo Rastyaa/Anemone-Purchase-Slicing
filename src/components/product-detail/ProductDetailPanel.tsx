@@ -32,7 +32,7 @@ interface ProductDetailPanelProps {
 
 export function ProductDetailPanel({ product, onClose }: ProductDetailPanelProps) {
   const isDesktop = useIsDesktop();
-  const { getQty, increment, decrement } = useCart();
+  const { getQty, increment, decrement, setQty } = useCart();
   const [activeImage, setActiveImage] = useState(0);
 
   if (!product) return null;
@@ -118,6 +118,7 @@ export function ProductDetailPanel({ product, onClose }: ProductDetailPanelProps
                       stockHO={product.stockHO}
                       onIncrement={() => increment(product.id, product.stockHO)}
                       onDecrement={() => decrement(product.id)}
+                      onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
                     />
                   </div>
                 ) : (

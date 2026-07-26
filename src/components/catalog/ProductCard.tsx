@@ -46,7 +46,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onViewDetail }: ProductCardProps) {
-  const { getQty, increment, decrement, remove } = useCart();
+  const { getQty, increment, decrement, setQty, remove } = useCart();
   const qty = getQty(product.id);
   const status = deriveStockStatus(product.stockHO);
   const isOutOfStock = status === "habis";
@@ -95,6 +95,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
               stockHO={product.stockHO}
               onIncrement={() => increment(product.id, product.stockHO)}
               onDecrement={() => decrement(product.id)}
+              onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
               onRemove={() => remove(product.id)}
             />
           ) : (
