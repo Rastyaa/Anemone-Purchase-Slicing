@@ -49,7 +49,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
   return (
     <article
       className={`flex gap-4 rounded-lg border p-4 shadow-sm transition-all hover:shadow-md ${
-        isAdded ? "border-magenta-200 bg-magenta-50/30" : "border-neutral-200 bg-white hover:border-brand-300"
+        isAdded ? "border-magenta-200 bg-magenta-50/30" : "border-neutral-200 bg-white hover:border-success-300"
       }`}
     >
       <Image
