@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, Inter } from "next/font/google";
+import { CartProvider } from "@/lib/cart-context";
 import { OutletProvider } from "@/lib/outlet-context";
 import "./globals.css";
 
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className={`${baloo2.variable} ${inter.variable} font-sans antialiased bg-neutral-50 text-neutral-900`}>
-        <OutletProvider>{children}</OutletProvider>
+        <OutletProvider>
+          <CartProvider>{children}</CartProvider>
+        </OutletProvider>
       </body>
     </html>
   );

@@ -11,7 +11,7 @@ import { BottomSheet } from "@/components/ui/BottomSheet";
 import { LoadingOverlay } from "@/components/ui/LoadingOverlay";
 import { SuccessModal } from "@/components/ui/SuccessModal";
 import productsData from "@/data/products.json";
-import { CartProvider, useCart } from "@/lib/cart-context";
+import { useCart } from "@/lib/cart-context";
 import { DEFAULT_EXPEDISI_VALUE, getExpedisiOngkir } from "@/lib/expedisi";
 import { formatRupiah } from "@/lib/format";
 import { generateOrderId } from "@/lib/order-id";
@@ -29,7 +29,7 @@ interface CompletedOrder {
   total: number;
 }
 
-function PurchaseRequestContent() {
+export default function PurchaseRequestPage() {
   const router = useRouter();
   const isDesktop = useIsDesktop();
   const { lines, clear } = useCart();
@@ -153,13 +153,5 @@ function PurchaseRequestContent() {
         />
       )}
     </>
-  );
-}
-
-export default function PurchaseRequestPage() {
-  return (
-    <CartProvider>
-      <PurchaseRequestContent />
-    </CartProvider>
   );
 }
