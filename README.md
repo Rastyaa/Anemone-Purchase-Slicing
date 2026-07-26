@@ -75,4 +75,4 @@ Business logic (validasi qty, hitung harga, derive status) sengaja dipisah ke `l
 - Tidak ada backend nyata — submit order = simulasi (delay + generate order id lokal), refresh halaman = cart & riwayat baru kembali ke data mock awal (tidak persisten). Ini **known limitation**, bukan bug.
 - Ambang batas "Stok Terbatas" diasumsikan `stockHO < 20` (tidak ada angka eksak di Figma, hanya label badge).
 - Ongkir & pajak (11%) diasumsikan flat per pesanan (`ONGKIR = Rp 50.000`), mengikuti angka yang tampil di Figma untuk skenario cart yang dicontohkan.
-- Data produk/order adalah mock (`src/data/*.json`) dengan gambar placeholder SVG lokal (tidak ada foto produk asli untuk technical test ini).
+- Data produk/order adalah mock (`src/data/*.json`). Foto produk pakai satu foto asli yang ada di source Figma (Product Detail Panel demo — foto tangan menulis worksheet calistung), dipakai berulang untuk 5 produk karena desain sumbernya sendiri tidak menyediakan foto berbeda per produk (instance `ProductCard` di katalog Figma masih placeholder text bawaan komponen, belum diisi data/foto asli).
