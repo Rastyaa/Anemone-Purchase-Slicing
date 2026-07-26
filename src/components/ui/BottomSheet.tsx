@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 
 interface BottomSheetProps {
   open: boolean;
@@ -10,9 +10,16 @@ interface BottomSheetProps {
   labelledBy?: string;
 }
 
+const DISMISS_THRESHOLD = 120;
+
 export function BottomSheet({ open, onClose, children, labelledBy }: BottomSheetProps) {
+  const [dragY, setDragY] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const startYRef = useRef(0);
+
   useEffect(() => {
     if (!open) return;
+    setDragY(0);
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") onClose();
     }
@@ -22,6 +29,26 @@ export function BottomSheet({ open, onClose, children, labelledBy }: BottomSheet
 
   if (!open) return null;
 
+  function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    startYRef.current = event.clientY;
+    setDragging(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    if (!dragging) return;
+    const delta = event.clientY - startYRef.current;
+    setDragY(Math.max(delta, 0));
+  }
+
+  function handlePointerUp() {
+    setDragging(false);
+    if (dragY > DISMISS_THRESHOLD) {
+      onClose();
+    }
+    setDragY(0);
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-neutral-900/40">
       <button type="button" aria-label="Tutup" onClick={onClose} className="absolute inset-0 cursor-default" />
@@ -29,9 +56,21 @@ export function BottomSheet({ open, onClose, children, labelledBy }: BottomSheet
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
+        style={{
+          transform: `translateY(${dragY}px)`,
+          transition: dragging ? "none" : "transform 0.2s ease-out",
+        }}
         className="relative max-h-[90vh] w-full overflow-y-auto rounded-t-lg bg-white p-4 shadow-xl"
       >
-        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-neutral-300" aria-hidden="true" />
+        <div
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          className="-mx-4 -mt-4 mb-3 cursor-grab touch-none px-4 pb-2 pt-4 active:cursor-grabbing"
+        >
+          <div className="mx-auto h-1 w-10 rounded-full bg-neutral-300" aria-hidden="true" />
+        </div>
         {children}
       </div>
     </div>
