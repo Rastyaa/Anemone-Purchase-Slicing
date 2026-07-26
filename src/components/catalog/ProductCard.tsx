@@ -34,6 +34,12 @@ const statusGaugeColor: Record<StockStatus, string> = {
   habis: "text-neutral-300",
 };
 
+const statusGaugeTitle: Record<StockStatus, string> = {
+  tersedia: "Stok banyak",
+  terbatas: "Stok menipis",
+  habis: "Stok kosong",
+};
+
 interface ProductCardProps {
   product: Product;
   onViewDetail: (product: Product) => void;
@@ -48,25 +54,25 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
 
   return (
     <article
-      className={`flex gap-4 rounded-lg border p-4 shadow-sm transition-all hover:shadow-md ${
+      className={`flex flex-col overflow-hidden rounded-lg border shadow-sm transition-all hover:shadow-md ${
         isAdded ? "border-success-200 bg-success-50/30" : "border-neutral-200 bg-white hover:border-success-300"
       }`}
     >
       <Image
         src={product.image}
         alt={product.name}
-        width={140}
-        height={140}
-        className="h-[140px] w-[140px] rounded-md object-cover"
+        width={320}
+        height={180}
+        className="h-36 w-full object-cover"
       />
-      <div className="flex flex-1 flex-col gap-2">
+      <div className="flex flex-1 flex-col gap-2 p-4">
         <Badge tone={isAdded ? "success" : statusTone[status]}>
           {isAdded ? "Ditambahkan ✓" : statusLabel[status]}
         </Badge>
         <h3 className="font-semibold text-neutral-900">{product.name}</h3>
         <p className="text-sm text-neutral-500">{formatRupiah(product.price)} / pcs</p>
-        <div className="flex items-center gap-1.5">
-          <LoopGauge fraction={statusGaugeFraction[status]} size={16} strokeWidth={2.5} className={statusGaugeColor[status]} />
+        <div className="flex items-center gap-2" title={statusGaugeTitle[status]}>
+          <LoopGauge fraction={statusGaugeFraction[status]} size={20} strokeWidth={3.5} className={statusGaugeColor[status]} />
           <span className="text-xs text-neutral-400">
             {status === "habis" ? "Stok habis di HO" : `${product.stockHO} pcs di HO`}
           </span>
@@ -80,7 +86,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
         </button>
         <div className="mt-auto pt-2">
           {isOutOfStock ? (
-            <Button variant="secondary" disabled>
+            <Button variant="secondary" disabled className="w-full">
               Stok Habis
             </Button>
           ) : isAdded ? (
@@ -92,7 +98,9 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
               onRemove={() => remove(product.id)}
             />
           ) : (
-            <Button onClick={() => increment(product.id, product.stockHO)}>+ Tambah</Button>
+            <Button className="w-full" onClick={() => increment(product.id, product.stockHO)}>
+              + Tambah
+            </Button>
           )}
         </div>
       </div>

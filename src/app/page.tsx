@@ -82,15 +82,17 @@ function PurchaseRequestContent() {
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_400px]">
           <section className="flex flex-col gap-4 pb-24 lg:pb-0">
-            <h2 className="text-lg font-semibold text-neutral-900">Katalog Produk HO</h2>
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} onViewDetail={setSelectedProduct} />
-            ))}
+            <h2 className="font-heading text-lg font-bold text-neutral-900">Katalog Produk HO</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} onViewDetail={setSelectedProduct} />
+              ))}
+            </div>
           </section>
 
           {isDesktop && (
             <aside className="h-fit rounded-lg border border-neutral-200 p-6 lg:sticky lg:top-6">
-              <h2 className="mb-4 text-lg font-semibold text-neutral-900">Ringkasan Pesanan (Cart)</h2>
+              <h2 className="mb-4 font-heading text-lg font-bold text-neutral-900">Ringkasan Pesanan (Cart)</h2>
               {cartPanel}
             </aside>
           )}
@@ -116,7 +118,7 @@ function PurchaseRequestContent() {
           onClose={() => setIsCartSheetOpen(false)}
           labelledBy="cart-sheet-title"
         >
-          <h2 id="cart-sheet-title" className="mb-4 text-lg font-semibold text-neutral-900">
+          <h2 id="cart-sheet-title" className="mb-4 font-heading text-lg font-bold text-neutral-900">
             Ringkasan Pesanan
           </h2>
           {cartPanel}
