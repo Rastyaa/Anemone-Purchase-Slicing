@@ -20,7 +20,7 @@ export function QuantityStepper({ qty, stockHO, onIncrement, onDecrement, onRemo
           onClick={onDecrement}
           disabled={atMin}
           aria-label="Kurangi jumlah"
-          className="h-8 w-8 rounded-md border border-neutral-300 text-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="h-8 w-8 rounded-md border border-neutral-300 text-neutral-700 disabled:cursor-not-allowed disabled:border-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-300"
         >
           −
         </button>
@@ -32,7 +32,7 @@ export function QuantityStepper({ qty, stockHO, onIncrement, onDecrement, onRemo
           onClick={onIncrement}
           disabled={atMax}
           aria-label="Tambah jumlah"
-          className="h-8 w-8 rounded-md border border-neutral-300 text-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="h-8 w-8 rounded-md border border-neutral-300 text-neutral-700 disabled:cursor-not-allowed disabled:border-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-300"
         >
           +
         </button>
