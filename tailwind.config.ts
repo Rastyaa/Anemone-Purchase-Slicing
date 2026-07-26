@@ -127,12 +127,17 @@ const config: Config = {
           "0%, 100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.03)" },
         },
+        "page-in": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.15s ease-out",
         "modal-in": "modal-in 0.18s ease-out",
         "sheet-in": "sheet-in 0.25s ease-out",
         bump: "bump 0.25s ease-out",
+        "page-in": "page-in 0.22s ease-out",
       },
     },
   },
