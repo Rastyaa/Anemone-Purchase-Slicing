@@ -4,6 +4,7 @@ Halaman internal untuk koordinator/owner outlet Anemone Indonesia memesan kebutu
 
 - **Figma (view access):** https://www.figma.com/design/5DdsO7m1tuAHoYbo2tQacN/Anemone---Purchase-Requests
 - **Repository:** https://github.com/Rastyaa/Anemone-Purchase-Slicing
+- **Live demo:** https://anemone-purchase-slicing.vercel.app
 
 ## Menjalankan Project
 
