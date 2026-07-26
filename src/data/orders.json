@@ -1,0 +1,84 @@
+[
+  {
+    "id": "PR-20260725-014",
+    "date": "2026-07-25",
+    "lines": [
+      { "name": "Modul Calistung Level 2", "qty": 20, "subtotal": 400000 },
+      { "name": "Tas Ransel Anemone", "qty": 10, "subtotal": 500000 }
+    ],
+    "expedisi": "Cargo JNR",
+    "ongkir": 50000,
+    "paymentMethod": "transfer-bank",
+    "status": "diproses",
+    "timeline": [
+      { "step": "dibuat", "timestamp": "2026-07-25T09:00:00+08:00" },
+      { "step": "diproses", "timestamp": "2026-07-25T09:05:00+08:00" },
+      { "step": "dikirim" },
+      { "step": "selesai" }
+    ]
+  },
+  {
+    "id": "PR-20260722-013",
+    "date": "2026-07-22",
+    "lines": [{ "name": "Poster Abjad & Angka", "qty": 20, "subtotal": 300000 }],
+    "expedisi": "Cargo JNR",
+    "ongkir": 50000,
+    "paymentMethod": "cod",
+    "status": "dikirim",
+    "timeline": [
+      { "step": "dibuat", "timestamp": "2026-07-22T08:30:00+08:00" },
+      { "step": "diproses", "timestamp": "2026-07-22T10:00:00+08:00" },
+      { "step": "dikirim", "timestamp": "2026-07-23T09:00:00+08:00" },
+      { "step": "selesai" }
+    ]
+  },
+  {
+    "id": "PR-20260718-012",
+    "date": "2026-07-18",
+    "lines": [
+      { "name": "Modul Calistung Level 1", "qty": 10, "subtotal": 200000 },
+      { "name": "Modul Calistung Level 2", "qty": 10, "subtotal": 200000 },
+      { "name": "Tas Ransel Anemone", "qty": 14, "subtotal": 700000 }
+    ],
+    "expedisi": "Cargo JNR",
+    "ongkir": 50000,
+    "paymentMethod": "transfer-bank",
+    "status": "selesai",
+    "timeline": [
+      { "step": "dibuat", "timestamp": "2026-07-18T08:00:00+08:00" },
+      { "step": "diproses", "timestamp": "2026-07-18T09:00:00+08:00" },
+      { "step": "dikirim", "timestamp": "2026-07-19T09:00:00+08:00" },
+      { "step": "selesai", "timestamp": "2026-07-20T14:00:00+08:00" }
+    ]
+  },
+  {
+    "id": "PR-20260710-011",
+    "date": "2026-07-10",
+    "lines": [{ "name": "Modul Calistung Level 2", "qty": 40, "subtotal": 800000 }],
+    "expedisi": "Cargo JNR",
+    "ongkir": 50000,
+    "paymentMethod": "qris",
+    "status": "selesai",
+    "timeline": [
+      { "step": "dibuat", "timestamp": "2026-07-10T08:00:00+08:00" },
+      { "step": "diproses", "timestamp": "2026-07-10T09:00:00+08:00" },
+      { "step": "dikirim", "timestamp": "2026-07-11T09:00:00+08:00" },
+      { "step": "selesai", "timestamp": "2026-07-12T13:00:00+08:00" }
+    ]
+  },
+  {
+    "id": "PR-20260705-010",
+    "date": "2026-07-05",
+    "lines": [{ "name": "Poster Abjad & Angka", "qty": 5, "subtotal": 75000 }],
+    "expedisi": "Cargo JNR",
+    "ongkir": 50000,
+    "paymentMethod": "transfer-bank",
+    "status": "dibatalkan",
+    "timeline": [
+      { "step": "dibuat", "timestamp": "2026-07-05T08:00:00+08:00" },
+      { "step": "diproses" },
+      { "step": "dikirim" },
+      { "step": "selesai" }
+    ]
+  }
+]
