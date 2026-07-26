@@ -12,6 +12,7 @@ import { useCart } from "@/lib/cart-context";
 import { formatRupiah } from "@/lib/format";
 import { paymentOptions } from "@/lib/payment";
 import { calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
+import { useIsDesktop } from "@/lib/use-media-query";
 import type { PaymentMethod, Product } from "@/lib/types";
 
 interface CartSummaryProps {
@@ -32,6 +33,7 @@ export function CartSummary({
   ongkir,
 }: CartSummaryProps) {
   const { lines, increment, decrement, setQty, remove } = useCart();
+  const isDesktop = useIsDesktop();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("transfer-bank");
   const [pendingRemove, setPendingRemove] = useState<Product | null>(null);
 
@@ -62,6 +64,7 @@ export function CartSummary({
                 key={line.productId}
                 product={product}
                 qty={line.qty}
+                editable={!isDesktop}
                 onIncrement={() => increment(product.id, product.stockHO)}
                 onDecrement={() => decrement(product.id)}
                 onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
