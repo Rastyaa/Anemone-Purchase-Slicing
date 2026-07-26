@@ -53,7 +53,12 @@ export function ProductDetailPanel({ product, onClose }: ProductDetailPanelProps
             <h2 id="product-detail-title" className="font-heading text-lg font-bold text-neutral-900">
               Detail Produk
             </h2>
-            <button type="button" onClick={onClose} aria-label="Tutup">
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Tutup"
+              className="-m-2 flex h-11 w-11 items-center justify-center text-lg text-neutral-500 hover:text-neutral-700"
+            >
               ✕
             </button>
           </div>

@@ -118,9 +118,19 @@ function PurchaseRequestContent() {
           onClose={() => setIsCartSheetOpen(false)}
           labelledBy="cart-sheet-title"
         >
-          <h2 id="cart-sheet-title" className="mb-4 font-heading text-lg font-bold text-neutral-900">
-            Ringkasan Pesanan
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 id="cart-sheet-title" className="font-heading text-lg font-bold text-neutral-900">
+              Ringkasan Pesanan
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsCartSheetOpen(false)}
+              aria-label="Tutup"
+              className="-m-2 flex h-11 w-11 items-center justify-center text-lg text-neutral-500 hover:text-neutral-700"
+            >
+              ✕
+            </button>
+          </div>
           {cartPanel}
         </BottomSheet>
       )}
