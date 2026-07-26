@@ -105,7 +105,7 @@ export default function PurchaseRequestPage() {
                 description="Coba ubah kata kunci atau filter stok."
               />
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {visibleProducts.map((product) => (
                   <ProductCard key={product.id} product={product} onViewDetail={setSelectedProduct} />
                 ))}

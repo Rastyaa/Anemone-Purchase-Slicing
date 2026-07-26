@@ -63,9 +63,9 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
         alt={product.name}
         width={320}
         height={180}
-        className="h-36 w-full object-cover"
+        className="h-28 w-full object-cover"
       />
-      <div className="flex flex-1 flex-col gap-2 p-4">
+      <div className="flex flex-1 flex-col gap-1.5 p-4">
         <Badge tone={isAdded ? "success" : statusTone[status]}>
           {isAdded ? "Ditambahkan ✓" : statusLabel[status]}
         </Badge>
@@ -90,14 +90,17 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
               Stok Habis
             </Button>
           ) : isAdded ? (
-            <QuantityStepper
-              qty={qty}
-              stockHO={product.stockHO}
-              onIncrement={() => increment(product.id, product.stockHO)}
-              onDecrement={() => decrement(product.id)}
-              onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
-              onRemove={() => remove(product.id)}
-            />
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <QuantityStepper
+                qty={qty}
+                stockHO={product.stockHO}
+                onIncrement={() => increment(product.id, product.stockHO)}
+                onDecrement={() => decrement(product.id)}
+                onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
+                onRemove={() => remove(product.id)}
+              />
+              <span className="text-sm font-semibold text-brand-700">{formatRupiah(product.price * qty)}</span>
+            </div>
           ) : (
             <Button className="w-full" onClick={() => increment(product.id, product.stockHO)}>
               + Tambah
