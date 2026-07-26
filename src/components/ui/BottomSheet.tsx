@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
+import { useFocusTrap } from "@/lib/use-focus-trap";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 interface BottomSheetProps {
   open: boolean;
@@ -16,6 +18,8 @@ export function BottomSheet({ open, onClose, children, labelledBy }: BottomSheet
   const [dragY, setDragY] = useState(0);
   const [dragging, setDragging] = useState(false);
   const startYRef = useRef(0);
+  const dialogRef = useFocusTrap<HTMLDivElement>(open);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     if (!open) return;
@@ -51,16 +55,18 @@ export function BottomSheet({ open, onClose, children, labelledBy }: BottomSheet
 
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-neutral-900/40 motion-safe:animate-fade-in">
-      <button type="button" aria-label="Tutup" onClick={onClose} className="absolute inset-0 cursor-default" />
+      <button type="button" aria-label="Tutup" onClick={onClose} tabIndex={-1} className="absolute inset-0 cursor-default" />
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
+        tabIndex={-1}
         style={{
           transform: `translateY(${dragY}px)`,
-          transition: dragging ? "none" : "transform 0.2s ease-out",
+          transition: dragging || prefersReducedMotion ? "none" : "transform 0.2s ease-out",
         }}
-        className="relative max-h-[90vh] w-full overflow-y-auto rounded-t-lg bg-white p-4 shadow-xl motion-safe:animate-sheet-in"
+        className="relative max-h-[90vh] w-full overflow-y-auto rounded-t-lg bg-white p-4 shadow-xl outline-none motion-safe:animate-sheet-in"
       >
         <div
           onPointerDown={handlePointerDown}
