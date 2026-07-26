@@ -8,6 +8,7 @@ import { OrderHistoryTable } from "@/components/order-history/OrderHistoryTable"
 import { Header } from "@/components/layout/Header";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { EmptyOrderHistoryIcon } from "@/components/ui/icons";
 import { SearchInput } from "@/components/ui/SearchInput";
 import ordersData from "@/data/orders.json";
 import { useIsDesktop } from "@/lib/use-media-query";
@@ -59,7 +60,7 @@ export default function OrderHistoryPage() {
         <div className="mt-6">
           {filteredOrders.length === 0 ? (
             <EmptyState
-              icon={<span className="text-5xl">📋</span>}
+              icon={<EmptyOrderHistoryIcon />}
               title="Belum ada riwayat pesanan"
               description="Pesanan yang kamu ajukan ke Head Office akan muncul di sini."
             />

@@ -6,6 +6,7 @@ import { CostBreakdown } from "@/components/cart/CostBreakdown";
 import { PaymentOption } from "@/components/cart/PaymentOption";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { EmptyCartIcon } from "@/components/ui/icons";
 import { useCart } from "@/lib/cart-context";
 import { formatRupiah } from "@/lib/format";
 import { calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
@@ -40,7 +41,7 @@ export function CartSummary({
   if (lines.length === 0) {
     return (
       <EmptyState
-        icon={<span className="text-5xl">🛒</span>}
+        icon={<EmptyCartIcon />}
         title="Keranjang masih kosong"
         description="Tambahkan produk dari katalog untuk mulai membuat pesanan."
       />
