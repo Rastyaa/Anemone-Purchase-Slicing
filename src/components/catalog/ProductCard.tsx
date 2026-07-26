@@ -10,7 +10,7 @@ import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { useCart } from "@/lib/cart-context";
 import { formatRupiah } from "@/lib/format";
 import { deriveStockStatus } from "@/lib/validation";
-import type { Product, StockStatus } from "@/lib/types";
+import type { Product, ProductCategory, StockStatus } from "@/lib/types";
 
 const statusLabel: Record<StockStatus, string> = {
   tersedia: "Stok Tersedia",
@@ -42,6 +42,13 @@ const statusGaugeTitle: Record<StockStatus, string> = {
   habis: "Stok kosong",
 };
 
+const categoryTint: Record<ProductCategory, string> = {
+  Modul: "bg-gradient-to-tr from-brand-700/30 to-transparent",
+  Perlengkapan: "bg-gradient-to-tr from-warning-600/30 to-transparent",
+  Dekorasi: "bg-gradient-to-tr from-magenta-700/30 to-transparent",
+  Buku: "bg-gradient-to-tr from-info-700/30 to-transparent",
+};
+
 interface ProductCardProps {
   product: Product;
   onViewDetail: (product: Product) => void;
@@ -61,13 +68,19 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
         isAdded ? "border-success-200 bg-success-50/30" : "border-neutral-200 bg-white hover:border-success-300"
       }`}
     >
-      <Image
-        src={product.image}
-        alt={product.name}
-        width={320}
-        height={180}
-        className="h-28 w-full object-cover"
-      />
+      <div className="relative">
+        <Image
+          src={product.image}
+          alt={product.name}
+          width={320}
+          height={180}
+          className="h-28 w-full object-cover"
+        />
+        <div aria-hidden="true" className={`absolute inset-0 ${categoryTint[product.category]}`} />
+        <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-medium text-neutral-700">
+          {product.category}
+        </span>
+      </div>
       <div className="flex flex-1 flex-col gap-1.5 p-4">
         <Badge tone={isAdded ? "success" : statusTone[status]}>
           {isAdded ? "Ditambahkan ✓" : statusLabel[status]}

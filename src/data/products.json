@@ -2,6 +2,7 @@
   {
     "id": "modul-calistung-1",
     "name": "Modul Calistung Level 1",
+    "category": "Modul",
     "image": "/products/modul-worksheet.png",
     "price": 20000,
     "stockHO": 500,
@@ -16,6 +17,7 @@
   {
     "id": "modul-calistung-2",
     "name": "Modul Calistung Level 2",
+    "category": "Modul",
     "image": "/products/modul-worksheet.png",
     "price": 20000,
     "stockHO": 12,
@@ -30,6 +32,7 @@
   {
     "id": "tas-ransel-anemone",
     "name": "Tas Ransel Anemone",
+    "category": "Perlengkapan",
     "image": "/products/modul-worksheet.png",
     "price": 50000,
     "stockHO": 40,
@@ -44,6 +47,7 @@
   {
     "id": "poster-abjad-angka",
     "name": "Poster Abjad & Angka",
+    "category": "Dekorasi",
     "image": "/products/modul-worksheet.png",
     "price": 15000,
     "stockHO": 0,
@@ -58,6 +62,7 @@
   {
     "id": "buku-cerita-bergambar",
     "name": "Buku Cerita Bergambar",
+    "category": "Buku",
     "image": "/products/modul-worksheet.png",
     "price": 25000,
     "stockHO": 25,

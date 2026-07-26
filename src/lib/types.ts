@@ -1,8 +1,11 @@
 export type StockStatus = "tersedia" | "terbatas" | "habis";
 
+export type ProductCategory = "Modul" | "Perlengkapan" | "Dekorasi" | "Buku";
+
 export interface Product {
   id: string;
   name: string;
+  category: ProductCategory;
   image: string;
   price: number;
   stockHO: number;
