@@ -22,6 +22,7 @@ export function CartItem({ product, qty, onIncrement, onDecrement, onQtyChange, 
         <QuantityStepper
           qty={qty}
           stockHO={product.stockHO}
+          productName={product.name}
           onIncrement={onIncrement}
           onDecrement={onDecrement}
           onQtyChange={onQtyChange}

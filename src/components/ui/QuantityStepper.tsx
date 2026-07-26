@@ -7,13 +7,22 @@ import { clampQty, isAtMaxStock, isAtMinQty } from "@/lib/validation";
 interface QuantityStepperProps {
   qty: number;
   stockHO: number;
+  productName: string;
   onIncrement: () => void;
   onDecrement: () => void;
   onQtyChange: (qty: number) => void;
   onRemove?: () => void;
 }
 
-export function QuantityStepper({ qty, stockHO, onIncrement, onDecrement, onQtyChange, onRemove }: QuantityStepperProps) {
+export function QuantityStepper({
+  qty,
+  stockHO,
+  productName,
+  onIncrement,
+  onDecrement,
+  onQtyChange,
+  onRemove,
+}: QuantityStepperProps) {
   const [draft, setDraft] = useState<string | null>(null);
   const atMin = isAtMinQty(qty);
   const atMax = isAtMaxStock(qty, stockHO);
@@ -39,7 +48,7 @@ export function QuantityStepper({ qty, stockHO, onIncrement, onDecrement, onQtyC
           type="button"
           onClick={onDecrement}
           disabled={atMin}
-          aria-label="Kurangi jumlah"
+          aria-label={`Kurangi jumlah ${productName}`}
           className="h-8 w-8 rounded-md border border-neutral-300 text-neutral-700 disabled:cursor-not-allowed disabled:border-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-300"
         >
           −
@@ -54,14 +63,14 @@ export function QuantityStepper({ qty, stockHO, onIncrement, onDecrement, onQtyC
           onFocus={(event) => event.target.select()}
           onBlur={commitDraft}
           onKeyDown={handleKeyDown}
-          aria-label="Jumlah pesanan"
+          aria-label={`Jumlah pesanan ${productName}`}
           className="h-8 w-12 rounded-md border border-neutral-300 text-center text-sm font-medium text-neutral-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100"
         />
         <button
           type="button"
           onClick={onIncrement}
           disabled={atMax}
-          aria-label="Tambah jumlah"
+          aria-label={`Tambah jumlah ${productName}`}
           className="h-8 w-8 rounded-md border border-neutral-300 text-neutral-700 disabled:cursor-not-allowed disabled:border-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-300"
         >
           +
@@ -70,7 +79,7 @@ export function QuantityStepper({ qty, stockHO, onIncrement, onDecrement, onQtyC
           <button
             type="button"
             onClick={onRemove}
-            aria-label="Hapus dari keranjang"
+            aria-label={`Hapus ${productName} dari keranjang`}
             className="ml-1 text-danger-600 hover:text-danger-700"
           >
             🗑

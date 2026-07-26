@@ -110,6 +110,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
               <QuantityStepper
                 qty={qty}
                 stockHO={product.stockHO}
+                productName={product.name}
                 onIncrement={() => increment(product.id, product.stockHO)}
                 onDecrement={() => decrement(product.id)}
                 onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
