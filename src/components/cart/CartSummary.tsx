@@ -35,7 +35,7 @@ export function CartSummary({
   onExpedisiChange,
   ongkir,
 }: CartSummaryProps) {
-  const { lines, remove } = useCart();
+  const { lines, increment, decrement, setQty, remove } = useCart();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("transfer-bank");
 
   if (lines.length === 0) {
@@ -60,7 +60,15 @@ export function CartSummary({
           const product = products.find((item) => item.id === line.productId);
           if (!product) return null;
           return (
-            <CartItem key={line.productId} product={product} qty={line.qty} onRemove={() => remove(line.productId)} />
+            <CartItem
+              key={line.productId}
+              product={product}
+              qty={line.qty}
+              onIncrement={() => increment(product.id, product.stockHO)}
+              onDecrement={() => decrement(product.id)}
+              onQtyChange={(next) => setQty(product.id, next, product.stockHO)}
+              onRemove={() => remove(line.productId)}
+            />
           );
         })}
       </div>
