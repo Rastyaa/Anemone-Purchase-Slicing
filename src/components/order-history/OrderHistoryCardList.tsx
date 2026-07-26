@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DetailToggleButton } from "@/components/order-history/DetailToggleButton";
 import { OrderDetailContent } from "@/components/order-history/OrderDetailContent";
 import { formatOrderDate, orderStatusLabel, orderStatusTone } from "@/components/order-history/order-display";
 import { Badge } from "@/components/ui/Badge";
@@ -33,15 +34,13 @@ export function OrderHistoryCardList({ orders }: OrderHistoryCardListProps) {
               <span className="text-xs text-neutral-500">{formatOrderDate(order.date)}</span>
               <Badge tone={orderStatusTone[order.status]}>{orderStatusLabel[order.status]}</Badge>
             </div>
-            <button
-              type="button"
-              onClick={() => setExpandedId(isExpanded ? null : order.id)}
-              aria-expanded={isExpanded}
-              aria-controls={`order-detail-mobile-${order.id}`}
-              className="mt-3 text-sm font-medium text-brand-700 underline-offset-2 hover:underline"
-            >
-              {isExpanded ? "Tutup Detail" : "Lihat Detail"}
-            </button>
+            <div className="mt-3">
+              <DetailToggleButton
+                expanded={isExpanded}
+                onClick={() => setExpandedId(isExpanded ? null : order.id)}
+                controlsId={`order-detail-mobile-${order.id}`}
+              />
+            </div>
 
             {isExpanded && (
               <div id={`order-detail-mobile-${order.id}`} className="mt-4 border-t border-neutral-100 pt-4">

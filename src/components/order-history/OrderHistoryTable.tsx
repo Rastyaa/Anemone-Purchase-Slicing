@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import { DetailToggleButton } from "@/components/order-history/DetailToggleButton";
 import { OrderDetailContent } from "@/components/order-history/OrderDetailContent";
 import { formatOrderDate, orderStatusLabel, orderStatusTone } from "@/components/order-history/order-display";
 import { Badge } from "@/components/ui/Badge";
@@ -45,15 +46,11 @@ export function OrderHistoryTable({ orders }: OrderHistoryTableProps) {
                   <Badge tone={orderStatusTone[order.status]}>{orderStatusLabel[order.status]}</Badge>
                 </td>
                 <td className="py-3">
-                  <button
-                    type="button"
+                  <DetailToggleButton
+                    expanded={isExpanded}
                     onClick={() => setExpandedId(isExpanded ? null : order.id)}
-                    aria-expanded={isExpanded}
-                    aria-controls={`order-detail-${order.id}`}
-                    className="text-sm font-medium text-brand-700 underline-offset-2 hover:underline"
-                  >
-                    {isExpanded ? "Tutup Detail" : "Lihat Detail"}
-                  </button>
+                    controlsId={`order-detail-${order.id}`}
+                  />
                 </td>
               </tr>
               {isExpanded && (
