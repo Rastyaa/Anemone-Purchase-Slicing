@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useCart } from "@/lib/cart-context";
 import { formatRupiah } from "@/lib/format";
-import { EXPEDISI, ONGKIR, calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
+import { calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
 import type { PaymentMethod, Product } from "@/lib/types";
 
 const paymentOptions: { value: PaymentMethod; label: string }[] = [
@@ -21,9 +21,19 @@ interface CartSummaryProps {
   products: Product[];
   isSubmitting: boolean;
   onSubmit: (paymentMethod: PaymentMethod) => void;
+  expedisiValue: string;
+  onExpedisiChange: (value: string) => void;
+  ongkir: number;
 }
 
-export function CartSummary({ products, isSubmitting, onSubmit }: CartSummaryProps) {
+export function CartSummary({
+  products,
+  isSubmitting,
+  onSubmit,
+  expedisiValue,
+  onExpedisiChange,
+  ongkir,
+}: CartSummaryProps) {
   const { lines, remove } = useCart();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("transfer-bank");
 
@@ -39,7 +49,7 @@ export function CartSummary({ products, isSubmitting, onSubmit }: CartSummaryPro
 
   const subtotal = calcSubtotal(lines, products);
   const tax = calcTax(subtotal);
-  const total = calcTotal(subtotal, tax, ONGKIR);
+  const total = calcTotal(subtotal, tax, ongkir);
 
   return (
     <div className="flex flex-col gap-6">
@@ -55,7 +65,13 @@ export function CartSummary({ products, isSubmitting, onSubmit }: CartSummaryPro
       </div>
 
       <hr className="border-neutral-200" />
-      <CostBreakdown subtotal={subtotal} tax={tax} expedisi={EXPEDISI} ongkir={ONGKIR} />
+      <CostBreakdown
+        subtotal={subtotal}
+        tax={tax}
+        expedisiValue={expedisiValue}
+        onExpedisiChange={onExpedisiChange}
+        ongkir={ongkir}
+      />
       <hr className="border-neutral-200" />
 
       <div className="flex items-center justify-between">

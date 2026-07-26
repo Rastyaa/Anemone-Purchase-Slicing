@@ -41,7 +41,7 @@ export default function OrderHistoryPage() {
 
   return (
     <>
-      <Header outletName="Denpasar Utara II" />
+      <Header />
       <PageContainer>
         <Link href="/" className="text-sm font-medium text-brand-700">
           ← Kembali ke Purchase Request

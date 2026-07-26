@@ -12,14 +12,15 @@ import { LoadingOverlay } from "@/components/ui/LoadingOverlay";
 import { SuccessModal } from "@/components/ui/SuccessModal";
 import productsData from "@/data/products.json";
 import { CartProvider, useCart } from "@/lib/cart-context";
+import { DEFAULT_EXPEDISI_VALUE, getExpedisiOngkir } from "@/lib/expedisi";
 import { formatRupiah } from "@/lib/format";
 import { generateOrderId } from "@/lib/order-id";
-import { ONGKIR, calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
+import { useOutlet } from "@/lib/outlet-context";
+import { calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
 import { useIsDesktop } from "@/lib/use-media-query";
 import type { PaymentMethod, Product } from "@/lib/types";
 
 const products = productsData as Product[];
-const OUTLET_NAME = "Denpasar Utara II";
 
 interface CompletedOrder {
   id: string;
@@ -32,14 +33,17 @@ function PurchaseRequestContent() {
   const router = useRouter();
   const isDesktop = useIsDesktop();
   const { lines, clear } = useCart();
+  const { outlet } = useOutlet();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedOrder, setCompletedOrder] = useState<CompletedOrder | null>(null);
+  const [expedisiValue, setExpedisiValue] = useState(DEFAULT_EXPEDISI_VALUE);
 
+  const ongkir = getExpedisiOngkir(expedisiValue);
   const subtotal = calcSubtotal(lines, products);
   const tax = calcTax(subtotal);
-  const total = calcTotal(subtotal, tax, ONGKIR);
+  const total = calcTotal(subtotal, tax, ongkir);
   const totalItems = lines.reduce((sum, line) => sum + line.qty, 0);
 
   function handleSubmit(_paymentMethod: PaymentMethod) {
@@ -58,11 +62,20 @@ function PurchaseRequestContent() {
     }, 1800);
   }
 
-  const cartPanel = <CartSummary products={products} isSubmitting={isSubmitting} onSubmit={handleSubmit} />;
+  const cartPanel = (
+    <CartSummary
+      products={products}
+      isSubmitting={isSubmitting}
+      onSubmit={handleSubmit}
+      expedisiValue={expedisiValue}
+      onExpedisiChange={setExpedisiValue}
+      ongkir={ongkir}
+    />
+  );
 
   return (
     <>
-      <Header outletName={OUTLET_NAME} />
+      <Header />
       <PageContainer>
         <h1 className="font-heading text-2xl font-bold text-neutral-900">Purchase Requests</h1>
         <p className="mt-1 text-neutral-500">Form Pemesanan Stock Cabang (Purchase Order)</p>
@@ -119,7 +132,7 @@ function PurchaseRequestContent() {
           itemCount={completedOrder.itemCount}
           totalQty={completedOrder.totalQty}
           total={completedOrder.total}
-          outletName={OUTLET_NAME}
+          outletName={outlet.name}
           onClose={() => setCompletedOrder(null)}
           onViewOrderHistory={() => {
             setCompletedOrder(null);
