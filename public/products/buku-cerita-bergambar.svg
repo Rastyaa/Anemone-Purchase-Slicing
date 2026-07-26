@@ -1,4 +1,14 @@
 <svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-  <rect width="400" height="300" fill="#e7e5e4"/>
-  <text x="200" y="150" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#78716c">Buku Cerita Bergambar</text>
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="400" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eafbfb"/>
+      <stop offset="1" stop-color="#6fd3db"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg5)"/>
+  <g transform="translate(140,90)" fill="none" stroke="#0a6b78" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M60 10 C40 0 10 0 0 10 L0 100 C10 90 40 90 60 100 C80 90 110 90 120 100 L120 10 C110 0 80 0 60 10 Z"/>
+    <path d="M60 10 L60 100"/>
+    <circle cx="30" cy="45" r="7" fill="#0a6b78" stroke="none"/>
+  </g>
 </svg>
