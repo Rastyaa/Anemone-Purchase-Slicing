@@ -99,6 +99,7 @@ public/
 |---|---|
 | `OrderHistoryTable` | tampilan desktop |
 | `OrderHistoryCardList` | tampilan mobile |
+| `DetailToggleButton` | tombol expand/collapse detail — dipakai bareng oleh Table & CardList |
 | `OrderDetailContent` | detail order + tombol "Pesan Lagi", dipakai bareng oleh Table & CardList |
 | `OrderStatusTimeline` | 4 step: Dibuat/Diproses/Dikirim/Selesai |
 | `order-display.ts` | label/tone/format tanggal bersama |
@@ -170,6 +171,7 @@ Hasil implementasi **sengaja tidak persis** dengan file Figma, dan ini keputusan
 - **Animasi transisi antar halaman** (`app/template.tsx`) dan entrance untuk Modal/BottomSheet — Next.js me-remount `template.tsx` di setiap navigasi, jadi animasi fade+rise otomatis replay tanpa library tambahan, dan karena provider cart/outlet ada di `layout.tsx` (di luar template), state tidak ikut reset.
 - **Semua animasi di belakang `motion-safe:`** — pengguna dengan `prefers-reduced-motion` mendapat perilaku instan, termasuk transisi drag-snap `BottomSheet` (dicek lewat `usePrefersReducedMotion`).
 - **Tint kategori pada foto produk** — karena hanya ada satu foto asli yang dipakai berulang (lihat §Asumsi), tiap kategori produk (Modul/Perlengkapan/Dekorasi/Buku) diberi gradient tint warna brand + chip label supaya tetap bisa dibedakan sekilas.
+- **Tombol "Lihat/Tutup Detail" di Order History** — semula plain text-link bergaris bawah, diganti `DetailToggleButton` berbentuk pill dengan border + chevron yang berotasi saat expand, supaya terlihat sebagai kontrol interaktif (bukan seperti link navigasi biasa) dan konsisten dengan gaya tombol lain di halaman.
 
 **Aksesibilitas:**
 
