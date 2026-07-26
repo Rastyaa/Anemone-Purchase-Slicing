@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Badge, type BadgeTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { LoopGauge } from "@/components/ui/LoopGauge";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { useCart } from "@/lib/cart-context";
 import { formatRupiah } from "@/lib/format";
@@ -21,6 +22,18 @@ const statusTone: Record<StockStatus, BadgeTone> = {
   habis: "danger",
 };
 
+const statusGaugeFraction: Record<StockStatus, number> = {
+  tersedia: 1,
+  terbatas: 0.45,
+  habis: 0.08,
+};
+
+const statusGaugeColor: Record<StockStatus, string> = {
+  tersedia: "text-success-600",
+  terbatas: "text-warning-500",
+  habis: "text-neutral-300",
+};
+
 interface ProductCardProps {
   product: Product;
   onViewDetail: (product: Product) => void;
@@ -34,7 +47,11 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
   const isAdded = qty > 0;
 
   return (
-    <article className="flex gap-4 rounded-lg border border-neutral-200 p-4 transition-colors hover:border-brand-300">
+    <article
+      className={`flex gap-4 rounded-lg border p-4 shadow-sm transition-all hover:shadow-md ${
+        isAdded ? "border-magenta-200 bg-magenta-50/30" : "border-neutral-200 bg-white hover:border-brand-300"
+      }`}
+    >
       <Image
         src={product.image}
         alt={product.name}
@@ -43,9 +60,17 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
         className="h-[140px] w-[140px] rounded-md object-cover"
       />
       <div className="flex flex-1 flex-col gap-2">
-        <Badge tone={isAdded ? "brand" : statusTone[status]}>{isAdded ? "Ditambahkan ✓" : statusLabel[status]}</Badge>
+        <Badge tone={isAdded ? "magenta" : statusTone[status]}>
+          {isAdded ? "Ditambahkan ✓" : statusLabel[status]}
+        </Badge>
         <h3 className="font-semibold text-neutral-900">{product.name}</h3>
         <p className="text-sm text-neutral-500">{formatRupiah(product.price)} / pcs</p>
+        <div className="flex items-center gap-1.5">
+          <LoopGauge fraction={statusGaugeFraction[status]} size={16} strokeWidth={2.5} className={statusGaugeColor[status]} />
+          <span className="text-xs text-neutral-400">
+            {status === "habis" ? "Stok habis di HO" : `${product.stockHO} pcs di HO`}
+          </span>
+        </div>
         <button
           type="button"
           onClick={() => onViewDetail(product)}
