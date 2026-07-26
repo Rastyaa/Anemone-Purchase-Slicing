@@ -73,5 +73,20 @@
       "/products/modul-worksheet.png",
       "/products/modul-worksheet.png"
     ]
+  },
+  {
+    "id": "pensil-set-anemone",
+    "name": "Pensil Set Anemone",
+    "category": "Perlengkapan",
+    "image": "/products/modul-worksheet.png",
+    "price": 10000,
+    "stockHO": 60,
+    "description": "Set pensil dan penghapus berlogo Anemone untuk kebutuhan alat tulis siswa di outlet.",
+    "gallery": [
+      "/products/modul-worksheet.png",
+      "/products/modul-worksheet.png",
+      "/products/modul-worksheet.png",
+      "/products/modul-worksheet.png"
+    ]
   }
 ]
