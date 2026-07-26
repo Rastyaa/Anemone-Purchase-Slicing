@@ -76,7 +76,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
           height={180}
           className="h-28 w-full object-cover"
         />
-        <div aria-hidden="true" className={`absolute inset-0 ${categoryTint[product.category]}`} />
+        <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${categoryTint[product.category]}`} />
         <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-medium text-neutral-700">
           {product.category}
         </span>
