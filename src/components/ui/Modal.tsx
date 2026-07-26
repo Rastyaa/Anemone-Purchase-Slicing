@@ -23,13 +23,13 @@ export function Modal({ open, onClose, children, labelledBy }: ModalProps) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-900/40 p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-900/40 p-6 motion-safe:animate-fade-in">
       <button type="button" aria-label="Tutup" onClick={onClose} className="absolute inset-0 cursor-default" />
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
-        className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-lg bg-white p-6 shadow-xl"
+        className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-lg bg-white p-6 shadow-xl motion-safe:animate-modal-in"
       >
         {children}
       </div>

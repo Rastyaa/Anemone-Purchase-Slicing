@@ -110,6 +110,30 @@ const config: Config = {
         heading: ["var(--font-baloo)", "sans-serif"],
         sans: ["var(--font-inter)", "sans-serif"],
       },
+      keyframes: {
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "modal-in": {
+          from: { opacity: "0", transform: "scale(0.96)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        "sheet-in": {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
+        },
+        bump: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.03)" },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 0.15s ease-out",
+        "modal-in": "modal-in 0.18s ease-out",
+        "sheet-in": "sheet-in 0.25s ease-out",
+        bump: "bump 0.25s ease-out",
+      },
     },
   },
   plugins: [],

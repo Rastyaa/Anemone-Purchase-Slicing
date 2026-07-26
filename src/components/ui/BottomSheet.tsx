@@ -50,7 +50,7 @@ export function BottomSheet({ open, onClose, children, labelledBy }: BottomSheet
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end bg-neutral-900/40">
+    <div className="fixed inset-0 z-50 flex items-end bg-neutral-900/40 motion-safe:animate-fade-in">
       <button type="button" aria-label="Tutup" onClick={onClose} className="absolute inset-0 cursor-default" />
       <div
         role="dialog"
@@ -60,7 +60,7 @@ export function BottomSheet({ open, onClose, children, labelledBy }: BottomSheet
           transform: `translateY(${dragY}px)`,
           transition: dragging ? "none" : "transform 0.2s ease-out",
         }}
-        className="relative max-h-[90vh] w-full overflow-y-auto rounded-t-lg bg-white p-4 shadow-xl"
+        className="relative max-h-[90vh] w-full overflow-y-auto rounded-t-lg bg-white p-4 shadow-xl motion-safe:animate-sheet-in"
       >
         <div
           onPointerDown={handlePointerDown}
