@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { OrderStatusTimeline } from "@/components/order-history/OrderStatusTimeline";
 import { Button } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import productsData from "@/data/products.json";
 import { useCart } from "@/lib/cart-context";
 import { formatRupiah } from "@/lib/format";
@@ -25,11 +26,13 @@ interface ReorderFeedback {
 export function OrderDetailContent({ order }: OrderDetailContentProps) {
   const { addMany } = useCart();
   const [feedback, setFeedback] = useState<ReorderFeedback | null>(null);
+  const [confirmingReorder, setConfirmingReorder] = useState(false);
 
   function handleReorder() {
     const { lines, skipped } = buildReorderLines(order, products);
     addMany(lines);
     setFeedback({ addedCount: lines.length, skipped });
+    setConfirmingReorder(false);
   }
 
   return (
@@ -54,7 +57,7 @@ export function OrderDetailContent({ order }: OrderDetailContentProps) {
         </div>
         <div className="mt-4">
           {feedback === null ? (
-            <Button variant="secondary" onClick={handleReorder}>
+            <Button variant="secondary" onClick={() => setConfirmingReorder(true)}>
               Pesan Lagi
             </Button>
           ) : (
@@ -76,6 +79,15 @@ export function OrderDetailContent({ order }: OrderDetailContentProps) {
         <p className="mb-2 text-xs font-medium uppercase text-neutral-400">Status Pesanan</p>
         <OrderStatusTimeline timeline={order.timeline} cancelled={order.status === "dibatalkan"} />
       </div>
+
+      <ConfirmDialog
+        open={confirmingReorder}
+        title="Pesan lagi pesanan ini?"
+        description={`${order.lines.length} item dari ${order.id} akan ditambahkan ke keranjang. Jumlah menyesuaikan stok HO saat ini, item yang stoknya habis dilewati.`}
+        confirmLabel="Tambahkan ke Keranjang"
+        onConfirm={handleReorder}
+        onClose={() => setConfirmingReorder(false)}
+      />
     </div>
   );
 }
