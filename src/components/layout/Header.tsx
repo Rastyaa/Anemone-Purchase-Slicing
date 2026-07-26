@@ -26,13 +26,13 @@ export function Header() {
           <AnemoneLogo />
           <span className="font-heading text-lg font-bold text-brand-700">Anemone</span>
         </Link>
-        <label className="hidden items-center gap-1 text-sm text-neutral-500 sm:flex">
-          Cabang:
+        <label className="flex items-center gap-1 text-sm text-neutral-500">
+          <span className="hidden sm:inline">Cabang:</span>
           <select
             value={outlet.id}
             onChange={(event) => setOutletId(event.target.value)}
             aria-label="Pilih cabang"
-            className="rounded-md border border-transparent bg-transparent font-medium text-neutral-700 hover:border-neutral-300 focus:border-brand-600 focus:outline-none"
+            className="max-w-[9rem] rounded-md border border-transparent bg-transparent font-medium text-neutral-700 hover:border-neutral-300 focus:border-brand-600 focus:outline-none sm:max-w-none"
           >
             {outlets.map((item) => (
               <option key={item.id} value={item.id}>
