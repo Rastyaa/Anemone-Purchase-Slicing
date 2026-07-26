@@ -22,62 +22,106 @@ npm run lint                     # eslint
 
 ## Teknologi
 
-- **Next.js 14 (App Router) + TypeScript** — dua route: `/` (Purchase Request) dan `/order-history`, type-safety untuk data produk/cart/order. `app/template.tsx` menambahkan animasi transisi halaman tanpa library eksternal (lihat §Keputusan UI/UX).
+- **Next.js 14 (App Router) + TypeScript** — dua route: `/` (Purchase Request) dan `/order-history`, type-safety untuk data produk/cart/order. `app/template.tsx` menambahkan animasi transisi halaman tanpa library eksternal.
 - **Tailwind CSS** — token warna **custom, diambil exact dari logo asli** `public/brand/anemone-logo.png` (teal `#08adc2`, magenta `#dc1964`, gold `#fec106`, disampling langsung dari file gambar), bukan alias warna default Tailwind. Semua animasi (entrance modal/sheet, transisi halaman, bump feedback) juga didefinisikan sebagai keyframes Tailwind — tidak ada dependency animasi tambahan (Framer Motion dsb). Lihat `tailwind.config.ts`.
 - **React Context + `useReducer`** untuk cart (`src/lib/cart-context.tsx` + `cart-reducer.ts`, persist ke `localStorage`) dan outlet aktif (`outlet-context.tsx`). Keduanya dipasang global di `layout.tsx` sehingga state tidak reset saat pindah halaman. `useState` lokal untuk state per-komponen (metode pembayaran, ekspedisi, filter, expand row, dropdown open/close, dll).
-- Tidak ada backend — data dari `src/data/products.json` dan `src/data/orders.json`.
+- Tidak ada backend — data dari `src/data/products.json` (6 produk) dan `src/data/orders.json` (5 order).
 
 ## Struktur Komponen
 
+Overview folder dulu, detail isi tiap folder ada di tabel di bawahnya — supaya gak perlu baca satu tree ASCII raksasa.
+
 ```
 src/
-  app/
-    layout.tsx                   Root layout — font, OutletProvider + CartProvider global
-    template.tsx                 Animasi transisi tiap perpindahan halaman
-    page.tsx                     Purchase Request (katalog + cart)
-    order-history/page.tsx       Order History
-  components/
-    layout/                      Header (logo + dropdown cabang), PageContainer
-    ui/                          primitif generik, tidak tahu domain produk/order:
-                                  Button, Badge, QuantityStepper (qty bisa diketik),
-                                  EmptyState, Modal, BottomSheet (drag-to-dismiss),
-                                  ConfirmDialog, SuccessModal, LoadingOverlay,
-                                  SearchInput, FilterTabs (pola ARIA tablist penuh),
-                                  Dropdown (listbox custom, keyboard nav),
-                                  LoopGauge (signature ring indicator), icons.tsx
-    catalog/ProductCard.tsx      grid card, stock gauge, quantity stepper, tint kategori
-    cart/                        CartSummary (scroll internal + footer pinned), CartItem
-                                  (qty bisa diedit langsung), CostBreakdown, PaymentOption,
-                                  ConfirmSubmitModal (ringkasan sebelum submit)
-    order-history/               OrderHistoryTable (desktop), OrderHistoryCardList
-                                  (mobile), OrderDetailContent (tombol "Pesan Lagi",
-                                  dipakai bareng keduanya), OrderStatusTimeline,
-                                  order-display.ts (label/tone/format bersama)
-    product-detail/ProductDetailPanel.tsx   responsif: Modal (desktop) / BottomSheet (mobile)
-  lib/
-    types.ts             Product (+ category), CartLine, Order (OrderLine + productId), dll
-    cart-reducer.ts      pure reducer (increment/decrement/setQty/addMany/hydrate/remove/clear)
-    cart-context.tsx     wiring reducer + persist/hydrate localStorage
-    outlets.ts / outlet-context.tsx   daftar outlet mock + context global
-    expedisi.ts          opsi ekspedisi + ongkir masing-masing (selectable)
-    payment.ts           opsi & label metode pembayaran (satu sumber, dipakai 2 tempat)
-    catalog-filter.ts    filterProducts() pure — search + filter stok katalog
-    reorder.ts           buildReorderLines() pure — pemetaan order lama ke cart baru
-    pricing.ts           calcSubtotal/calcTax/calcTotal/calcOrderSubtotal (pure)
-    validation.ts        clampQty, isAtMinQty, isAtMaxStock, deriveStockStatus (pure)
-    format.ts            formatRupiah
-    order-id.ts          generateOrderId
-    use-media-query.ts   useIsDesktop() — satu breakpoint (1024px) untuk semua
-                         keputusan responsif di app
-    use-focus-trap.ts    focus-trap dipakai bersama oleh Modal & BottomSheet
-    use-reduced-motion.ts  deteksi prefers-reduced-motion untuk animasi drag/transisi
-  data/
-    products.json, orders.json
+├── app/                 routing Next.js App Router
+├── components/
+│   ├── ui/              primitif generik — reusable, tidak tahu domain produk/order
+│   ├── layout/          Header, PageContainer
+│   ├── catalog/         ProductCard
+│   ├── cart/            CartSummary, CartItem, CostBreakdown, ConfirmSubmitModal
+│   ├── order-history/   Table (desktop), CardList (mobile), Timeline, dll
+│   └── product-detail/  ProductDetailPanel
+├── lib/                 business logic murni (pure function), context, hooks
+└── data/                products.json, orders.json (mock)
 public/
-  brand/anemone-logo.png         logo asli (sumber token warna)
-  products/modul-worksheet.png   satu foto produk asli dari Figma, dipakai
-                                  berulang (lihat §Asumsi)
+├── brand/               logo asli (sumber token warna)
+└── products/            satu foto produk asli (dipakai berulang, lihat §Asumsi)
 ```
+
+#### `app/`
+
+| File | Isi |
+|---|---|
+| `layout.tsx` | Root layout — font, `OutletProvider` + `CartProvider` global |
+| `template.tsx` | Animasi transisi tiap perpindahan halaman |
+| `page.tsx` | Purchase Request (katalog + cart) |
+| `order-history/page.tsx` | Order History |
+
+#### `components/ui/` — primitif generik, tidak tahu apa-apa soal domain produk/order
+
+| Komponen | Isi |
+|---|---|
+| `Button` | varian primary/secondary/danger, state loading |
+| `Badge` | status pill (tersedia/terbatas/habis/diproses/dst) |
+| `QuantityStepper` | jumlah bisa diketik langsung, di-clamp ke stok saat blur/Enter |
+| `EmptyState` | ikon + judul + deskripsi, dipakai di cart kosong & order history kosong |
+| `Modal` / `BottomSheet` | overlay desktop/mobile — focus-trap, drag-to-dismiss (BottomSheet) |
+| `ConfirmDialog` | konfirmasi sebelum aksi destruktif/massal |
+| `SuccessModal` | konfirmasi order berhasil dibuat |
+| `LoadingOverlay` | full-screen saat submit diproses |
+| `SearchInput` | dipakai di katalog & Order History |
+| `FilterTabs` | pola ARIA tablist penuh (roving tabindex, Arrow/Home/End) |
+| `Dropdown` | listbox custom dengan keyboard nav, panel di-portal ke `document.body` |
+| `LoopGauge` | signature ring indicator (stok & timeline status) |
+| `icons.tsx` | ikon branded (empty state cart/order history/search) |
+
+#### `components/layout/`, `components/catalog/`, `components/product-detail/`
+
+| Komponen | Isi |
+|---|---|
+| `layout/Header` | logo asli, dropdown cabang, link Order History |
+| `layout/PageContainer` | wrapper max-width + padding konsisten |
+| `catalog/ProductCard` | grid card — stock gauge, tint kategori, quantity stepper |
+| `product-detail/ProductDetailPanel` | responsif: `Modal` (desktop, view-only) / `BottomSheet` (mobile, bisa add-to-cart) |
+
+#### `components/cart/`
+
+| Komponen | Isi |
+|---|---|
+| `CartSummary` | orkestrasi cart — body scroll internal + footer (total & submit) pinned |
+| `CartItem` | **read-only di desktop** (nama, qty×harga, subtotal); **full editable di mobile** (qty + hapus) — lihat §Keputusan UI/UX |
+| `CostBreakdown` | subtotal/tax/expedisi/ongkir — murni angka hasil kalkulasi |
+| `ConfirmSubmitModal` | ringkasan pesanan sebelum submit benar-benar terkirim |
+
+#### `components/order-history/`
+
+| Komponen | Isi |
+|---|---|
+| `OrderHistoryTable` | tampilan desktop |
+| `OrderHistoryCardList` | tampilan mobile |
+| `OrderDetailContent` | detail order + tombol "Pesan Lagi", dipakai bareng oleh Table & CardList |
+| `OrderStatusTimeline` | 4 step: Dibuat/Diproses/Dikirim/Selesai |
+| `order-display.ts` | label/tone/format tanggal bersama |
+
+#### `lib/` — business logic murni, context, dan hooks
+
+| File | Isi |
+|---|---|
+| `types.ts` | `Product` (+`category`), `CartLine`, `Order` (`OrderLine`+`productId`), dll |
+| `cart-reducer.ts` | pure reducer: `increment/decrement/setQty/addMany/hydrate/remove/clear` |
+| `cart-context.tsx` | wiring reducer + persist/hydrate ke `localStorage` |
+| `outlets.ts`, `outlet-context.tsx` | daftar outlet mock + context global |
+| `expedisi.ts` | opsi ekspedisi + ongkir masing-masing |
+| `payment.ts` | opsi & label metode pembayaran (satu sumber, dipakai di beberapa tempat) |
+| `catalog-filter.ts` | `filterProducts()` — search + filter stok katalog |
+| `reorder.ts` | `buildReorderLines()` — pemetaan order lama ke baris cart baru |
+| `pricing.ts` | `calcSubtotal/calcTax/calcTotal/calcOrderSubtotal` |
+| `validation.ts` | `clampQty`, `isAtMinQty`, `isAtMaxStock`, `deriveStockStatus` |
+| `format.ts` | `formatRupiah` |
+| `order-id.ts` | `generateOrderId` |
+| `use-media-query.ts` | `useIsDesktop()` — satu breakpoint (1024px) untuk semua keputusan responsif di app |
+| `use-focus-trap.ts` | dipakai bersama oleh `Modal` & `BottomSheet` |
+| `use-reduced-motion.ts` | deteksi `prefers-reduced-motion` untuk animasi drag/transisi |
 
 Business logic (validasi qty, hitung harga, derive status, filter katalog, pemetaan reorder) sengaja dipisah ke `lib/` sebagai pure function — komponen React cuma manggil, gak nyimpen logic itu sendiri.
 
@@ -91,7 +135,7 @@ Hasil implementasi **sengaja tidak persis** dengan file Figma, dan ini keputusan
 
 1. **Warna.** Figma memakai palet sementara yang identik dengan warna default Tailwind. Setelah file logo asli tersedia, warna brand yang sebenarnya (teal `#08adc2`, magenta `#dc1964`, gold `#fec106`) di-sampling langsung dari logo dan dijadikan token — hasilnya identitas visual yang benar-benar milik brand, bukan template.
 2. **Aset.** Figma hanya punya placeholder ("pending image fill" untuk logo, kotak abu untuk foto produk). Frontend memakai logo asli dan satu-satunya foto asli yang ada di file Figma.
-3. **Detail interaksi yang belum sempat dirancang di Figma** — dropdown cabang & ekspedisi dengan info per opsi, drag-to-dismiss bottom sheet, keyboard navigation, touch target 44px, indikator stok `LoopGauge`, hingga efisiensi alur pemesanan (qty bisa diketik, edit qty langsung dari cart, reorder dari riwayat, cart persisten) — ditambahkan/dinaikkan levelnya di kode karena lebih cepat diiterasi langsung di browser daripada digambar ulang dulu di Figma.
+3. **Detail interaksi yang belum sempat dirancang di Figma** — dropdown cabang/ekspedisi/pembayaran dengan info per opsi, drag-to-dismiss bottom sheet, keyboard navigation, touch target 44px, indikator stok `LoopGauge`, hingga efisiensi alur pemesanan (qty bisa diketik, edit qty langsung dari cart, reorder dari riwayat, cart persisten) — ditambahkan/dinaikkan levelnya di kode karena lebih cepat diiterasi langsung di browser daripada digambar ulang dulu di Figma.
 
 **Tujuannya:** menunjukkan dua kemampuan sekaligus sesuai brief — proses desain (wireframe → hi-fi di Figma) *dan* penilaian desain saat implementasi (mengenali kekurangan desain sendiri, memperbaikinya dengan alasan yang bisa dipertanggungjawabkan). Daripada mengirim frontend yang setia pada desain yang sudah diketahui kurang, lebih jujur mengirim frontend terbaik yang bisa dibuat dengan mendokumentasikan setiap penyimpangan — yang dirinci satu per satu di bagian berikut.
 
@@ -104,18 +148,22 @@ Hasil implementasi **sengaja tidak persis** dengan file Figma, dan ini keputusan
 - **Product Detail Panel beda perilaku per breakpoint, dan ini disengaja** — desktop view-only, mobile bisa add-to-cart langsung — dikonfirmasi ke screenshot asli Figma tiap breakpoint, bukan salah gambar.
 - **Status stok & total pesanan dihitung, bukan disimpan** — `deriveStockStatus`, `calcOrderSubtotal`, dst — supaya tidak ada dua sumber kebenaran yang bisa saling beda.
 - **Loading state dua lapis**: spinner di tombol submit DAN `LoadingOverlay` full-screen — dua-duanya ada di Figma, jadi dua-duanya diimplementasikan.
-- **Dropdown cabang & ekspedisi pakai komponen custom**, bukan `<select>` native — supaya bisa nampilin detail per opsi (region/kode cabang, ongkir per ekspedisi), dengan keyboard navigation penuh (Arrow/Home/End/Escape) supaya tidak kalah aksesibel dari native select yang digantikan.
 - **Konsistensi affordance tutup**: semua overlay mobile punya tombol "✕" dengan touch target 44×44px dan bisa drag-to-dismiss.
 
 **Efisiensi pemesanan (upgrade di atas versi awal):**
 
 - **Jumlah pesanan bisa diketik langsung**, bukan cuma tombol ±1 — memesan 50 pcs semula butuh 50 klik. `QuantityStepper` sekarang punya input angka yang di-clamp ke stok saat blur/Enter.
-- **Qty bisa diubah langsung dari keranjang** — sebelumnya `CartItem` cuma bisa dihapus, harus balik ke katalog untuk ubah jumlah.
+- **Qty bisa diubah langsung dari keranjang (mobile)** — sebelumnya `CartItem` cuma bisa dihapus, harus balik ke katalog untuk ubah jumlah. **Di desktop baris cart sengaja read-only** (nama, qty×harga, subtotal saja) — katalog di kolom sebelah sudah punya kontrol yang sama persis, dua set kontrol identik berdampingan cuma bikin ramai.
 - **Tombol "Pesan Lagi" di Order History** — use case utama outlet (pesan barang yang sama tiap periode) sebelumnya tidak punya jalan pintas sama sekali. Jumlah otomatis menyesuaikan stok HO saat ini, item yang stoknya habis dilewati dengan pemberitahuan.
 - **Keranjang persist ke `localStorage`** — refresh tidak lagi menghapus pesanan yang sedang disusun (riwayat pesanan tetap mock, tidak persisten — lihat §Asumsi).
-- **Pencarian + filter stok di katalog**, pola yang sama seperti Order History, supaya katalog HO yang lebih besar dari 5 produk mock tetap bisa di-scan cepat.
+- **Pencarian + filter stok di katalog**, pola yang sama seperti Order History, supaya katalog HO yang lebih besar dari 6 produk mock tetap bisa di-scan cepat.
 - **Konfirmasi sebelum submit order** — ringkasan singkat (cabang, item, metode, ekspedisi, total) sebelum order benar-benar terkirim, mengurangi risiko misklik pada pesanan bernilai besar.
-- **Konfirmasi sebelum menghapus item / sebelum reorder** — aksi destruktif (hapus dari keranjang, baik di katalog maupun di cart) dan aksi massal (reorder mengisi banyak baris sekaligus) sekarang lewat `ConfirmDialog` dulu. Menambah produk ke keranjang ("+ Tambah") sengaja tetap satu klik — itu aksi yang paling sering dipakai dan tidak destruktif.
+- **Konfirmasi sebelum menghapus item / sebelum reorder** — aksi destruktif (hapus dari keranjang) dan aksi massal (reorder mengisi banyak baris sekaligus) sekarang lewat `ConfirmDialog` dulu. Menambah produk ke keranjang ("+ Tambah") sengaja tetap satu klik — itu aksi yang paling sering dipakai dan tidak destruktif.
+
+**Ekspedisi & Metode Pembayaran:**
+
+- **Keduanya dropdown custom (`Dropdown`), ditaruh sejajar 2 kolom** — collapsed by default, opsi muncul saat diklik. Awalnya Ekspedisi ditaruh sebagai baris di dalam `CostBreakdown` (tabel angka read-only), lalu sempat dicoba jadi list kartu radio yang selalu terbuka (sama seperti Metode Pembayaran) — dua-duanya bikin panel cart makin panjang dan harus di-scroll. Bentuk dropdown sejajar ini yang paling ringkas, sekaligus konsisten: keduanya sama-sama "keputusan yang dibuat user", jadi ditaruh berdampingan sebagai satu section, bukan salah satunya nyempil di tempat lain.
+- **Dropdown pilihannya di-portal ke `document.body`**, bukan di-render di dalam `CartSummary` — kalau tetap di dalam, panel opsi bisa ke-clip oleh area `overflow-y-auto` milik cart begitu opsi lebih panjang dari ruang yang tersisa. Posisinya dihitung dari `getBoundingClientRect()` trigger, dan otomatis tertutup kalau area cart di-scroll (supaya gak ada panel yang nyangkut di posisi lama).
 
 **Polish visual & motion:**
 
@@ -137,4 +185,4 @@ Hasil implementasi **sengaja tidak persis** dengan file Figma, dan ini keputusan
 - Ekspedisi (Cargo JNR/JNE Trucking/SiCepat Cargo) dan daftar cabang (Denpasar Utara II/Denpasar Selatan I/Kuta Utara) adalah **data mock buatan sendiri**, bukan data logistik/cabang riil Anemone.
 - **Kategori produk** (Modul/Perlengkapan/Dekorasi/Buku, dipakai untuk tint kartu katalog) adalah pengelompokan yang dibuat sendiri berdasarkan nama produk — tidak ada taksonomi kategori resmi di Figma maupun brief.
 - **"Pesan Lagi" mencocokkan produk berdasarkan `productId`**, bukan mengulang harga/snapshot historis — jumlah di-clamp ke stok HO saat ini, dan harga yang dipakai adalah harga produk saat ini (bukan harga historis di pesanan lama), karena tidak ada mekanisme harga historis di sistem mock ini.
-- Data produk/order adalah mock (`src/data/*.json`). Foto produk pakai satu foto asli yang ada di source Figma (Product Detail Panel demo — foto tangan menulis worksheet calistung), dipakai berulang untuk 5 produk karena desain sumbernya sendiri tidak menyediakan foto berbeda per produk.
+- Data produk/order adalah mock (`src/data/*.json`, 6 produk & 5 order). Foto produk pakai satu foto asli yang ada di source Figma (Product Detail Panel demo — foto tangan menulis worksheet calistung), dipakai berulang untuk keenam produk karena desain sumbernya sendiri tidak menyediakan foto berbeda per produk.
