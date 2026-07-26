@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { CartItem } from "@/components/cart/CartItem";
 import { CostBreakdown } from "@/components/cart/CostBreakdown";
-import { ExpedisiOption } from "@/components/cart/ExpedisiOption";
-import { PaymentOption } from "@/components/cart/PaymentOption";
 import { Button } from "@/components/ui/Button";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { Dropdown, type DropdownOption } from "@/components/ui/Dropdown";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { EmptyCartIcon } from "@/components/ui/icons";
 import { useCart } from "@/lib/cart-context";
@@ -16,6 +15,20 @@ import { paymentOptions } from "@/lib/payment";
 import { calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
 import { useIsDesktop } from "@/lib/use-media-query";
 import type { PaymentMethod, Product } from "@/lib/types";
+
+const FIELD_TRIGGER_CLASSNAME =
+  "flex w-full items-center justify-between gap-2 rounded-md border border-neutral-300 px-3 py-2.5 text-sm font-medium text-neutral-900 hover:border-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-1";
+
+const expedisiDropdownOptions: DropdownOption<string>[] = expedisiOptions.map((option) => ({
+  value: option.value,
+  label: option.label,
+  description: `Ongkir ${formatRupiah(option.ongkir)}`,
+}));
+
+const paymentDropdownOptions: DropdownOption<PaymentMethod>[] = paymentOptions.map((option) => ({
+  value: option.value,
+  label: option.label,
+}));
 
 interface CartSummaryProps {
   products: Product[];
@@ -77,33 +90,30 @@ export function CartSummary({
         </div>
 
         <hr className="border-neutral-200" />
-        <div className="flex flex-col gap-3">
-          <p className="text-sm font-medium text-neutral-500">Ekspedisi</p>
-          {expedisiOptions.map((option) => (
-            <ExpedisiOption
-              key={option.value}
-              label={option.label}
-              ongkir={formatRupiah(option.ongkir)}
-              selected={expedisiValue === option.value}
-              onSelect={() => onExpedisiChange(option.value)}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-1.5">
+            <p className="text-sm font-medium text-neutral-500">Ekspedisi</p>
+            <Dropdown
+              options={expedisiDropdownOptions}
+              value={expedisiValue}
+              onChange={onExpedisiChange}
+              ariaLabel="Pilih ekspedisi"
+              triggerClassName={FIELD_TRIGGER_CLASSNAME}
             />
-          ))}
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <p className="text-sm font-medium text-neutral-500">Metode Pembayaran</p>
+            <Dropdown
+              options={paymentDropdownOptions}
+              value={paymentMethod}
+              onChange={setPaymentMethod}
+              ariaLabel="Pilih metode pembayaran"
+              triggerClassName={FIELD_TRIGGER_CLASSNAME}
+            />
+          </div>
         </div>
         <hr className="border-neutral-200" />
         <CostBreakdown subtotal={subtotal} tax={tax} expedisiLabel={getExpedisiLabel(expedisiValue)} ongkir={ongkir} />
-        <hr className="border-neutral-200" />
-
-        <div className="flex flex-col gap-3">
-          <p className="text-sm font-medium text-neutral-500">Metode Pembayaran</p>
-          {paymentOptions.map((option) => (
-            <PaymentOption
-              key={option.value}
-              label={option.label}
-              selected={paymentMethod === option.value}
-              onSelect={() => setPaymentMethod(option.value)}
-            />
-          ))}
-        </div>
       </div>
 
       <div className="flex shrink-0 flex-col gap-4 border-t border-neutral-200 pt-4">
