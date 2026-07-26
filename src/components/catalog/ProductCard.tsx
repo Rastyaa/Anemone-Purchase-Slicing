@@ -49,7 +49,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
   return (
     <article
       className={`flex gap-4 rounded-lg border p-4 shadow-sm transition-all hover:shadow-md ${
-        isAdded ? "border-magenta-200 bg-magenta-50/30" : "border-neutral-200 bg-white hover:border-success-300"
+        isAdded ? "border-success-200 bg-success-50/30" : "border-neutral-200 bg-white hover:border-success-300"
       }`}
     >
       <Image
@@ -60,7 +60,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
         className="h-[140px] w-[140px] rounded-md object-cover"
       />
       <div className="flex flex-1 flex-col gap-2">
-        <Badge tone={isAdded ? "magenta" : statusTone[status]}>
+        <Badge tone={isAdded ? "success" : statusTone[status]}>
           {isAdded ? "Ditambahkan ✓" : statusLabel[status]}
         </Badge>
         <h3 className="font-semibold text-neutral-900">{product.name}</h3>

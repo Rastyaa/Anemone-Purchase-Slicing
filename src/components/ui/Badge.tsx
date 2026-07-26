@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type BadgeTone = "success" | "warning" | "danger" | "info" | "brand" | "magenta" | "neutral";
+export type BadgeTone = "success" | "warning" | "danger" | "info" | "brand" | "neutral";
 
 interface BadgeProps {
   tone: BadgeTone;
@@ -13,7 +13,6 @@ const toneClasses: Record<BadgeTone, string> = {
   danger: "bg-danger-50 text-danger-700",
   info: "bg-info-50 text-info-700",
   brand: "bg-brand-50 text-brand-700",
-  magenta: "bg-magenta-50 text-magenta-700",
   neutral: "bg-neutral-100 text-neutral-500",
 };
 
