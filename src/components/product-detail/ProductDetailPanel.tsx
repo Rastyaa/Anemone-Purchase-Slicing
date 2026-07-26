@@ -100,11 +100,7 @@ export function ProductDetailPanel({ product, onClose }: ProductDetailPanelProps
           <p className="mt-1 text-sm text-neutral-700">{product.description}</p>
         </div>
 
-        {isDesktop ? (
-          <Button className="w-full" onClick={onClose}>
-            Kembali ke Katalog
-          </Button>
-        ) : (
+        {!isDesktop && (
           status !== "habis" && (
             <>
               <hr className="border-neutral-200" />
