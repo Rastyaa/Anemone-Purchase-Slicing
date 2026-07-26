@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { CartItem } from "@/components/cart/CartItem";
 import { CostBreakdown } from "@/components/cart/CostBreakdown";
+import { ExpedisiOption } from "@/components/cart/ExpedisiOption";
 import { PaymentOption } from "@/components/cart/PaymentOption";
 import { Button } from "@/components/ui/Button";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { EmptyCartIcon } from "@/components/ui/icons";
 import { useCart } from "@/lib/cart-context";
+import { expedisiOptions, getExpedisiLabel } from "@/lib/expedisi";
 import { formatRupiah } from "@/lib/format";
 import { paymentOptions } from "@/lib/payment";
 import { calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
@@ -75,13 +77,20 @@ export function CartSummary({
         </div>
 
         <hr className="border-neutral-200" />
-        <CostBreakdown
-          subtotal={subtotal}
-          tax={tax}
-          expedisiValue={expedisiValue}
-          onExpedisiChange={onExpedisiChange}
-          ongkir={ongkir}
-        />
+        <div className="flex flex-col gap-3">
+          <p className="text-sm font-medium text-neutral-500">Ekspedisi</p>
+          {expedisiOptions.map((option) => (
+            <ExpedisiOption
+              key={option.value}
+              label={option.label}
+              ongkir={formatRupiah(option.ongkir)}
+              selected={expedisiValue === option.value}
+              onSelect={() => onExpedisiChange(option.value)}
+            />
+          ))}
+        </div>
+        <hr className="border-neutral-200" />
+        <CostBreakdown subtotal={subtotal} tax={tax} expedisiLabel={getExpedisiLabel(expedisiValue)} ongkir={ongkir} />
         <hr className="border-neutral-200" />
 
         <div className="flex flex-col gap-3">
