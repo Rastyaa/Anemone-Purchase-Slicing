@@ -9,14 +9,9 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { EmptyCartIcon } from "@/components/ui/icons";
 import { useCart } from "@/lib/cart-context";
 import { formatRupiah } from "@/lib/format";
+import { paymentOptions } from "@/lib/payment";
 import { calcSubtotal, calcTax, calcTotal } from "@/lib/pricing";
 import type { PaymentMethod, Product } from "@/lib/types";
-
-const paymentOptions: { value: PaymentMethod; label: string }[] = [
-  { value: "transfer-bank", label: "Transfer Bank" },
-  { value: "cod", label: "COD" },
-  { value: "qris", label: "QRIS" },
-];
 
 interface CartSummaryProps {
   products: Product[];

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CartSummary } from "@/components/cart/CartSummary";
+import { ConfirmSubmitModal } from "@/components/cart/ConfirmSubmitModal";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -17,7 +18,7 @@ import { EmptySearchIcon } from "@/components/ui/icons";
 import productsData from "@/data/products.json";
 import { useCart } from "@/lib/cart-context";
 import { catalogFilterOptions, filterProducts, type CatalogFilter } from "@/lib/catalog-filter";
-import { DEFAULT_EXPEDISI_VALUE, getExpedisiOngkir } from "@/lib/expedisi";
+import { DEFAULT_EXPEDISI_VALUE, getExpedisiLabel, getExpedisiOngkir } from "@/lib/expedisi";
 import { formatRupiah } from "@/lib/format";
 import { generateOrderId } from "@/lib/order-id";
 import { useOutlet } from "@/lib/outlet-context";
@@ -46,6 +47,7 @@ export default function PurchaseRequestPage() {
   const [expedisiValue, setExpedisiValue] = useState(DEFAULT_EXPEDISI_VALUE);
   const [search, setSearch] = useState("");
   const [catalogFilter, setCatalogFilter] = useState<CatalogFilter>("semua");
+  const [pendingPayment, setPendingPayment] = useState<PaymentMethod | null>(null);
 
   const visibleProducts = filterProducts(products, search, catalogFilter);
 
@@ -55,8 +57,14 @@ export default function PurchaseRequestPage() {
   const total = calcTotal(subtotal, tax, ongkir);
   const totalItems = lines.reduce((sum, line) => sum + line.qty, 0);
 
-  function handleSubmit(_paymentMethod: PaymentMethod) {
+  function handleSubmit(paymentMethod: PaymentMethod) {
     if (isSubmitting) return;
+    setPendingPayment(paymentMethod);
+  }
+
+  function handleConfirmedSubmit() {
+    if (isSubmitting) return;
+    setPendingPayment(null);
     setIsSubmitting(true);
     window.setTimeout(() => {
       setCompletedOrder({
@@ -159,6 +167,19 @@ export default function PurchaseRequestPage() {
       )}
 
       <ProductDetailPanel product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+      {pendingPayment && (
+        <ConfirmSubmitModal
+          open
+          itemCount={lines.length}
+          totalQty={totalItems}
+          total={total}
+          paymentMethod={pendingPayment}
+          expedisiLabel={getExpedisiLabel(expedisiValue)}
+          outletName={outlet.name}
+          onConfirm={handleConfirmedSubmit}
+          onClose={() => setPendingPayment(null)}
+        />
+      )}
       <LoadingOverlay open={isSubmitting} />
       {completedOrder && (
         <SuccessModal

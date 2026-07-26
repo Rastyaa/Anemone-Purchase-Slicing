@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 import { OrderStatusTimeline } from "@/components/order-history/OrderStatusTimeline";
-import { paymentMethodLabel } from "@/components/order-history/order-display";
 import { Button } from "@/components/ui/Button";
 import productsData from "@/data/products.json";
 import { useCart } from "@/lib/cart-context";
 import { formatRupiah } from "@/lib/format";
+import { paymentMethodLabel } from "@/lib/payment";
 import { buildReorderLines } from "@/lib/reorder";
 import type { Order, Product } from "@/lib/types";
 
