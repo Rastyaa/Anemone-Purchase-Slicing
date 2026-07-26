@@ -1,8 +1,6 @@
 import type { CartLine, Order, Product } from "@/lib/types";
 
 export const TAX_RATE = 0.11;
-export const ONGKIR = 50000;
-export const EXPEDISI = "Cargo JNR";
 
 export function calcSubtotal(lines: CartLine[], products: Product[]): number {
   return lines.reduce((sum, line) => {
