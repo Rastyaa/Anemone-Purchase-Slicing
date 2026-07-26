@@ -101,7 +101,7 @@ export function ProductDetailPanel({ product, onClose }: ProductDetailPanelProps
 
         <hr className="border-neutral-200" />
         <div>
-          <p className="text-xs font-medium uppercase text-neutral-400">Deskripsi Produk</p>
+          <p className="text-xs font-medium uppercase text-neutral-500">Deskripsi Produk</p>
           <p className="mt-1 text-sm text-neutral-700">{product.description}</p>
         </div>
 
@@ -110,7 +110,7 @@ export function ProductDetailPanel({ product, onClose }: ProductDetailPanelProps
             <>
               <hr className="border-neutral-200" />
               <div>
-                <p className="text-xs font-medium uppercase text-neutral-400">Jumlah Pesanan</p>
+                <p className="text-xs font-medium uppercase text-neutral-500">Jumlah Pesanan</p>
                 {qty > 0 ? (
                   <div className="mt-2">
                     <QuantityStepper

@@ -30,7 +30,7 @@ export function OrderStatusTimeline({ timeline, cancelled }: OrderStatusTimeline
               {done && <span className="absolute text-[10px] text-success-700">✓</span>}
             </span>
             <div>
-              <p className={`text-sm font-medium ${done ? "text-neutral-900" : "text-neutral-400"}`}>
+              <p className={`text-sm font-medium ${done ? "text-neutral-900" : "text-neutral-500"}`}>
                 {stepLabel[entry.step]}
               </p>
               {entry.timestamp && (

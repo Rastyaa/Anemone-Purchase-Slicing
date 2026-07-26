@@ -152,7 +152,7 @@ export function Dropdown<T extends string>({
                 >
                   <span>
                     <span className="block font-medium">{option.label}</span>
-                    {option.description && <span className="block text-xs text-neutral-400">{option.description}</span>}
+                    {option.description && <span className="block text-xs text-neutral-500">{option.description}</span>}
                   </span>
                   {isSelected && (
                     <span aria-hidden="true" className="text-brand-600">

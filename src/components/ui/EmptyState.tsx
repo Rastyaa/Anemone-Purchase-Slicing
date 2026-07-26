@@ -13,7 +13,7 @@ export function EmptyState({ icon, title, description }: EmptyStateProps) {
         {icon}
       </div>
       <p className="font-medium text-neutral-700">{title}</p>
-      {description && <p className="text-sm text-neutral-400">{description}</p>}
+      {description && <p className="text-sm text-neutral-500">{description}</p>}
     </div>
   );
 }

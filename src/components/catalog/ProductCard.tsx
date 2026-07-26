@@ -89,7 +89,7 @@ export function ProductCard({ product, onViewDetail }: ProductCardProps) {
         <p className="text-sm text-neutral-500">{formatRupiah(product.price)} / pcs</p>
         <div className="flex items-center gap-2" title={statusGaugeTitle[status]}>
           <LoopGauge fraction={statusGaugeFraction[status]} size={20} strokeWidth={3.5} className={statusGaugeColor[status]} />
-          <span className="text-xs text-neutral-400">
+          <span className="text-xs text-neutral-500">
             {status === "habis" ? "Stok habis di HO" : `${product.stockHO} pcs di HO`}
           </span>
         </div>

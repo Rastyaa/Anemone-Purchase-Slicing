@@ -38,7 +38,7 @@ export function OrderDetailContent({ order }: OrderDetailContentProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2">
       <div>
-        <p className="mb-2 text-xs font-medium uppercase text-neutral-400">Item Dipesan</p>
+        <p className="mb-2 text-xs font-medium uppercase text-neutral-500">Item Dipesan</p>
         <ul className="flex flex-col gap-1">
           {order.lines.map((line) => (
             <li key={line.name} className="flex justify-between text-sm text-neutral-700">
@@ -76,7 +76,7 @@ export function OrderDetailContent({ order }: OrderDetailContentProps) {
         </div>
       </div>
       <div>
-        <p className="mb-2 text-xs font-medium uppercase text-neutral-400">Status Pesanan</p>
+        <p className="mb-2 text-xs font-medium uppercase text-neutral-500">Status Pesanan</p>
         <OrderStatusTimeline timeline={order.timeline} cancelled={order.status === "dibatalkan"} />
       </div>
 

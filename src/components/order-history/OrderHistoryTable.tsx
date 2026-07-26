@@ -18,7 +18,7 @@ export function OrderHistoryTable({ orders }: OrderHistoryTableProps) {
   return (
     <table className="w-full text-left text-sm">
       <thead>
-        <tr className="border-b border-neutral-200 text-xs font-medium uppercase text-neutral-400">
+        <tr className="border-b border-neutral-200 text-xs font-medium uppercase text-neutral-500">
           <th className="py-2 pr-4">No. Pesanan</th>
           <th className="py-2 pr-4">Tanggal</th>
           <th className="py-2 pr-4">Item</th>
