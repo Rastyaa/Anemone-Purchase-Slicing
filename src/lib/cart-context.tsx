@@ -1,9 +1,29 @@
 "use client";
 
-import { createContext, useContext, useMemo, useReducer } from "react";
+import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from "react";
 import type { ReactNode } from "react";
 import type { CartLine } from "@/lib/types";
 import { cartReducer } from "@/lib/cart-reducer";
+
+const STORAGE_KEY = "anemone-cart";
+
+function isCartLine(value: unknown): value is CartLine {
+  if (typeof value !== "object" || value === null) return false;
+  const line = value as Record<string, unknown>;
+  return typeof line.productId === "string" && typeof line.qty === "number" && Number.isInteger(line.qty) && line.qty > 0;
+}
+
+function readStoredLines(): CartLine[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(isCartLine).map((line) => ({ productId: line.productId, qty: line.qty }));
+  } catch {
+    return [];
+  }
+}
 
 interface CartContextValue {
   lines: CartLine[];
@@ -20,6 +40,20 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, dispatch] = useReducer(cartReducer, []);
+  const skippedFirstPersistRef = useRef(false);
+
+  useEffect(() => {
+    const stored = readStoredLines();
+    if (stored.length > 0) dispatch({ type: "hydrate", lines: stored });
+  }, []);
+
+  useEffect(() => {
+    if (!skippedFirstPersistRef.current) {
+      skippedFirstPersistRef.current = true;
+      return;
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
+  }, [lines]);
 
   const value = useMemo<CartContextValue>(
     () => ({
