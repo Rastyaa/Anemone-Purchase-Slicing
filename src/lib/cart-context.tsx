@@ -11,6 +11,7 @@ interface CartContextValue {
   increment: (productId: string, stockHO: number) => void;
   decrement: (productId: string) => void;
   remove: (productId: string) => void;
+  clear: () => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -25,6 +26,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       increment: (productId, stockHO) => dispatch({ type: "increment", productId, stockHO }),
       decrement: (productId) => dispatch({ type: "decrement", productId }),
       remove: (productId) => dispatch({ type: "remove", productId }),
+      clear: () => dispatch({ type: "clear" }),
     }),
     [lines],
   );

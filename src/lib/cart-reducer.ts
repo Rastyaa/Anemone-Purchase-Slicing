@@ -4,7 +4,8 @@ import { clampQty } from "@/lib/validation";
 export type CartAction =
   | { type: "increment"; productId: string; stockHO: number }
   | { type: "decrement"; productId: string }
-  | { type: "remove"; productId: string };
+  | { type: "remove"; productId: string }
+  | { type: "clear" };
 
 export function cartReducer(state: CartLine[], action: CartAction): CartLine[] {
   switch (action.type) {
@@ -25,6 +26,8 @@ export function cartReducer(state: CartLine[], action: CartAction): CartLine[] {
     }
     case "remove":
       return state.filter((line) => line.productId !== action.productId);
+    case "clear":
+      return [];
     default:
       return state;
   }
