@@ -1,0 +1,72 @@
+[
+  {
+    "id": "modul-calistung-1",
+    "name": "Modul Calistung Level 1",
+    "image": "/products/modul-calistung-1.svg",
+    "price": 20000,
+    "stockHO": 500,
+    "description": "Modul latihan calistung untuk kebutuhan operasional outlet, cocok dipakai program belajar harian di cabang.",
+    "gallery": [
+      "/products/modul-calistung-1.svg",
+      "/products/modul-calistung-1.svg",
+      "/products/modul-calistung-1.svg",
+      "/products/modul-calistung-1.svg"
+    ]
+  },
+  {
+    "id": "modul-calistung-2",
+    "name": "Modul Calistung Level 2",
+    "image": "/products/modul-calistung-2.svg",
+    "price": 20000,
+    "stockHO": 12,
+    "description": "Lanjutan Modul Calistung Level 1, untuk siswa yang sudah menguasai dasar membaca dan berhitung.",
+    "gallery": [
+      "/products/modul-calistung-2.svg",
+      "/products/modul-calistung-2.svg",
+      "/products/modul-calistung-2.svg",
+      "/products/modul-calistung-2.svg"
+    ]
+  },
+  {
+    "id": "tas-ransel-anemone",
+    "name": "Tas Ransel Anemone",
+    "image": "/products/tas-ransel-anemone.svg",
+    "price": 50000,
+    "stockHO": 40,
+    "description": "Tas ransel berlogo Anemone untuk perlengkapan siswa, tahan air dan muat modul ukuran A4.",
+    "gallery": [
+      "/products/tas-ransel-anemone.svg",
+      "/products/tas-ransel-anemone.svg",
+      "/products/tas-ransel-anemone.svg",
+      "/products/tas-ransel-anemone.svg"
+    ]
+  },
+  {
+    "id": "poster-abjad-angka",
+    "name": "Poster Abjad & Angka",
+    "image": "/products/poster-abjad-angka.svg",
+    "price": 15000,
+    "stockHO": 0,
+    "description": "Poster dinding abjad dan angka untuk dekorasi ruang belajar cabang.",
+    "gallery": [
+      "/products/poster-abjad-angka.svg",
+      "/products/poster-abjad-angka.svg",
+      "/products/poster-abjad-angka.svg",
+      "/products/poster-abjad-angka.svg"
+    ]
+  },
+  {
+    "id": "buku-cerita-bergambar",
+    "name": "Buku Cerita Bergambar",
+    "image": "/products/buku-cerita-bergambar.svg",
+    "price": 25000,
+    "stockHO": 25,
+    "description": "Buku cerita bergambar untuk sesi membaca santai di cabang.",
+    "gallery": [
+      "/products/buku-cerita-bergambar.svg",
+      "/products/buku-cerita-bergambar.svg",
+      "/products/buku-cerita-bergambar.svg",
+      "/products/buku-cerita-bergambar.svg"
+    ]
+  }
+]
